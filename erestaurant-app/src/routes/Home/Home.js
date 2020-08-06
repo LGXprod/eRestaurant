@@ -1,10 +1,13 @@
 import React from "react";
+import { Helmet } from 'react-helmet';
 import LoginForm from "./components/LoginForm";
 
 function Home() {
   return (
     <div className="Home">
-      <h1>eRestaurant</h1>
+      <Helmet>
+      <title>eRestaurant</title>
+      </Helmet>
       <LoginForm />
     </div>
   );
