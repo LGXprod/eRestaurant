@@ -35,6 +35,10 @@ const LoginForm = () => {
     console.log("x", isUser);
   }, [isUser]);
 
+  useEffect(() => {
+    if (password === "" & username === "") setIsUser(null);
+  }, [username, password])
+
   // setIsUser(null)
 
   async function checkLogin(username, password) {
