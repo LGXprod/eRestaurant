@@ -4,28 +4,18 @@ import {
   Paper,
   Typography,
   Container,
-  TextField,
   Button,
-  makeStyles,
+  withStyles
 } from "@material-ui/core";
 import queryString from "querystring";
 import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
-
-const useStyles = makeStyles((theme) => ({
-  formRows: {
-    margin: theme.spacing(1),
-    textAlign: "center",
-  },
-  formHeading: {
-    color: "#364f6b",
-  },
-}));
+import Styles, { STextField } from "../Styles";
 
 const cookies = new Cookies();
 
-const LoginForm = () => {
-  const classes = useStyles();
+const LoginForm = (props) => {
+  const { classes } = props;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -72,7 +62,7 @@ const LoginForm = () => {
   return (
     <React.Fragment>
       <Container maxWidth="xs">
-        <Paper elevation={3}>
+        <Paper elevation={3} className={classes.middleground}>
           <Grid
             container
             direction="column"
@@ -80,13 +70,13 @@ const LoginForm = () => {
             alignItems="center"
           >
             <Typography
-              className={`${classes.formRows} ${classes.formHeading}`}
+              className={`${classes.formRows} ${classes.text}`}
               variant="h3"
             >
               eRestaurant Login
             </Typography>
 
-            <TextField
+            <STextField
               className={classes.formRows}
               id="outlined-basic"
               label="Username"
@@ -94,7 +84,7 @@ const LoginForm = () => {
               onChange={(event) => setUsername(event.target.value)}
             />
 
-            <TextField
+            <STextField
               className={classes.formRows}
               id="outlined-basic"
               label="Password"
@@ -123,4 +113,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default withStyles(Styles)(LoginForm);
