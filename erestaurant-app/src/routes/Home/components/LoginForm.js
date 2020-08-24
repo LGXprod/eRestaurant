@@ -73,7 +73,7 @@ const LoginForm = (props) => {
               className={`${classes.formRows} ${classes.text}`}
               variant="h3"
             >
-              eRestaurant Login
+            Log in
             </Typography>
 
             <STextField
@@ -100,7 +100,7 @@ const LoginForm = (props) => {
             )}
 
             <Button
-              className={classes.formRows}
+              className={`${classes.formRows} ${classes.button}`}
               variant="contained"
               onClick={() => checkLogin(username, password)}
             >
