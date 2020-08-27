@@ -10,7 +10,6 @@ const loginController = require("./controllers/loginController");
 
 restaurantApp.listen(5000, function() {
     console.log("Server running on port 5000");
-    console.log("Hello");
 });
 
 const mongoURI = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.bf9ms.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
