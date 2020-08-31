@@ -73,7 +73,7 @@ const LoginForm = (props) => {
               className={`${classes.formRows} ${classes.text}`}
               variant="h3"
             >
-            Log in
+            Login
             </Typography>
 
             <STextField
