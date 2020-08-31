@@ -5,30 +5,16 @@ import {
   Typography,
   Button,
   makeStyles,
+  withStyles,
 } from "@material-ui/core";
 import { Helmet } from "react-helmet";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegForm";
+import Styles from "./Styles";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    marginLeft: 20,
-    marginRight: 80,
-    marginTop: -100,
-  },
-  logo: {
-    flexGrow: 1,
-  },
-  button: {
-    alignSelf: "center",
-    marginTop: -30,
-  },
-}));
-
-function Home() {
+function Home(props) {
+  const { classes } = props;
   const [displaySignIn, setDisplaySignIn] = useState(true);
-  const classes = useStyles();
 
   return (
     <div className="Home">
@@ -55,6 +41,7 @@ function Home() {
               onClick={() => {
                 setDisplaySignIn(!displaySignIn);
               }}
+              style={{ alignSelf: "center", marginTop: -30 }}
             >
               {displaySignIn ? "SIGN UP" : "LOGIN"}
             </Button>
@@ -67,4 +54,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withStyles(Styles)(Home);

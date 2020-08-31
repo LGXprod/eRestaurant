@@ -22,6 +22,15 @@ const useStyles = (theme) => ({
     backgroundColor: "#7ed957",
     color: "white",
   },
+  root: {
+    flexGrow: 1,
+    marginLeft: 20,
+    marginRight: 80,
+    marginTop: -100,
+  },
+  logo: {
+    flexGrow: 1,
+  },
 });
 
 const STextField = withStyles({
