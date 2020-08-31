@@ -2,13 +2,13 @@ import { TextField, withStyles } from "@material-ui/core";
 
 const useStyles = (theme) => ({
   background: {
-    backgroundColor: "grey",
+    backgroundColor: "#grey",
   },
   middleground: {
-    backgroundColor: "white",
+    backgroundColor: "#white",
   },
   foreground: {
-    backgroundColor: "grey",
+    backgroundColor: "#grey",
   },
   text: {
     color: "Black",
@@ -21,37 +21,25 @@ const useStyles = (theme) => ({
   button: {
     backgroundColor: "#7ed957",
     color: "white",
-    "&:hover": {
-      background: "grey"
-    }
-  },
-  root: {
-    flexGrow: 1,
-    marginLeft: 20,
-    marginRight: 80,
-    marginTop: -100,
-  },
-  logo: {
-    flexGrow: 1,
   },
 });
 
 const STextField = withStyles({
   root: {
     '& label.Mui-focused': {
-      color: "grey",
+      color: "#grey",
     },
     '& .MuiFormLabel-root': {
-      color: "grey",
+      color: "#grey",
     },
     '& .MuiInput-underline:after': {
       borderBottomColor: 'green',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: "grey",
+        borderColor: "#grey",
         borderWidth: "2px",
-        color: "grey"
+        color: "#grey"
       },
       '&:hover fieldset': {
         borderColor: "#84a9ac",
