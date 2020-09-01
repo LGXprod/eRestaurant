@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import {
-  AppBar,
-  Toolbar,
-  Typography,
   Button,
-  makeStyles,
   withStyles,
 } from "@material-ui/core";
 import { Helmet } from "react-helmet";
@@ -23,30 +19,17 @@ function Home(props) {
       </Helmet>
 
       <div className={classes.root}>
-        <AppBar
-          position="static"
-          style={{ background: "transparent", boxShadow: "none" }}
-        >
-          <Toolbar>
-            <Typography className={classes.logo}>
-              <img
-                style={{ height: 300 }}
-                src={require("../../Assets/dineout.png")}
-                alt="Logo"
-              />
-            </Typography>
             <Button
               color="primary"
               className={classes.button}
               onClick={() => {
                 setDisplaySignIn(!displaySignIn);
               }}
-              style={{ alignSelf: "center", marginTop: -30 }}
+              style={{ alignSelf: "center" }}
             >
               {displaySignIn ? "SIGN UP" : "LOGIN"}
             </Button>
-          </Toolbar>
-        </AppBar>
+
       </div>
 
       {displaySignIn ? <LoginForm /> : <RegForm />}
