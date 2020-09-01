@@ -22,25 +22,21 @@ const useStyles = (theme) => ({
     marginTop: '100px',
     fontFamily: 'Nunito-Bold',
     fontSize: 13,
-    display: 'inline-block'
+    display: 'inline-block',
   },
   formRows: {
     margin: theme.spacing(1.5),
     textAlign: "center",
   },
-  button: {
-    backgroundColor: "#7ed957",
-    fontFamily: 'Nunito',
-    textTransform: 'none',
-    borderRadius: 0,
-    color: "white",
-    "&:hover": {
-      background: "grey"
-    }
+  signformRows: {
+    margin: theme.spacing(1.5),
+    width: '164px',
+    textAlign: "center",
   },
   logo: {
     flexGrow: 1,
     marginLeft: 25,
+    marginTop: -50,
     marginBottom: -140,
   },
   loginButton: {
@@ -50,6 +46,19 @@ const useStyles = (theme) => ({
     fontSize: '19px',
     borderRadius: 0,
     width: '80%',
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#54B82A",
+      color: '#fff',
+    }
+  },
+  signupButton: {
+    backgroundColor: "#54B82A",
+    fontFamily: 'Nunito',
+    textTransform: 'none',
+    fontSize: '19px',
+    borderRadius: 0,
+    width: '93.5%',
     color: "white",
     "&:hover": {
       backgroundColor: "#54B82A",
