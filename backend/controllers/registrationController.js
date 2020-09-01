@@ -1,7 +1,6 @@
 const customer = require("../models/customer");
 
 module.exports = (app) => {
-  console.log("here");
   app.post("/Registration", (req, res) => {
     switch (req.body.role) {
       case "customer":
@@ -17,9 +16,13 @@ module.exports = (app) => {
               res.sendStatus(500);
             }
           });
+        break;
       case "customer service":
+        break;
       case "chef":
+        break;
       case "management":
+        break;
       default:
         res.sendStatus(422);
     }
