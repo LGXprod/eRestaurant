@@ -7,7 +7,11 @@ const restaurantApp = express();
 restaurantApp.use(bodyParser.urlencoded({ extended: true }));
 
 const loginController = require("./controllers/loginController");
+<<<<<<< Updated upstream
 const registrationController = require("./controllers/registrationController");
+=======
+const registrationController = require('./controllers/registrationController');
+>>>>>>> Stashed changes
 
 restaurantApp.listen(5000, function() {
     console.log("Server running on port 5000");

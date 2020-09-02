@@ -11,7 +11,7 @@ module.exports = (app) => {
           })
           .catch((err) => {
             if (err === "Missing props" || err === "Invalid props") {
-              res.sendStatus(422);
+              res.sendStatus(422);  
             } else {
               res.sendStatus(500);
             }
