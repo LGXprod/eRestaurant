@@ -1,37 +1,47 @@
 const axios = require("axios");
 const queryString = require("querystring");
 const faker = require("faker");
+const { internet } = require("faker");
 
-test("Register customer then login", async () => {
-  await axios
-    .post(
-      "http://localhost:5000/Registration",
-      queryString.stringify({
+describe("Register customer then login", async () => {
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
+  for (let i = 1; i <= 10; i++) {
+    it(`Sample patient ${i}`, async () => {
+      const sampleCustomer = {
         username: faker.internet.userName(),
         password: faker.internet.password(),
         fName: faker.name.firstName(),
         sName: faker.name.lastName(),
         email: faker.internet.email(),
-        phoneNum: faker.phone.phoneNumber(),
+        mobileNum: faker.phone.phoneNumber(),
         role: "customer",
-      })
-    )
-    .then((res) => console.log(res.status))
-    .catch((err) => console.log(err));
+      };
 
-  await axios
-    .post(
-      "http://localhost:5000/Login",
-      queryString.stringify({
-        username: "testUsername",
-        password: "egrgre",
-      })
-    )
-    .then((res) => expect(res.data).toEqual({ auth: false }));
+      await axios
+        .post(
+          "http://localhost:5000/Registration",
+          queryString.stringify(sampleCustomer)
+        )
+        .then((res) => console.log(res.status));
+
+      await axios
+        .post(
+          "http://localhost:5000/Login",
+          queryString.stringify({
+            username: sampleCustomer.username,
+            password: sampleCustomer.password,
+          })
+        )
+        .then((res) => expect(res.data).toHaveProperty("auth", true));
+    });
+  }
 });
 
-test("Register customer service employee", async () => {});
+// test("Register customer service employee", async () => {});
 
-test("Register chef", async () => {});
+// test("Register chef", async () => {});
 
-test("Register management", async () => {});
+// test("Register management", async () => {});
