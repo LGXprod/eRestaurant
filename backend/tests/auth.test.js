@@ -3,7 +3,7 @@ const queryString = require("querystring");
 const faker = require("faker");
 const { internet } = require("faker");
 
-describe("Register customer then login", async () => {
+async function registerAndLogin(correctLogin) {
   beforeEach(() => {
     jest.resetModules();
   });
@@ -31,14 +31,22 @@ describe("Register customer then login", async () => {
         .post(
           "http://localhost:5000/Login",
           queryString.stringify({
-            username: sampleCustomer.username,
-            password: sampleCustomer.password,
+            username: `${sampleCustomer.username}${
+              correctLogin ? "" : Math.random().toString(36).substr(2, 5)
+            }`,
+            password: `${sampleCustomer.password}${
+              correctLogin ? "" : Math.random().toString(36).substr(2, 5)
+            }`,
           })
         )
-        .then((res) => expect(res.data).toHaveProperty("auth", true));
+        .then((res) => expect(res.data).toHaveProperty("auth", correctLogin));
     });
   }
-});
+}
+
+describe("Register customer then login with correct details", async () => registerAndLogin(true));
+
+describe("Register customer then login with incorrect details", async () => registerAndLogin(false));
 
 // test("Register customer service employee", async () => {});
 
