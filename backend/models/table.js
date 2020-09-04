@@ -62,9 +62,29 @@ const cancelBookedTable = (tableNumber) => {
   });
 }
 
+const getTableNumber = (table_id) => {
+  return new Promise((resolve, reject) => {
+    Table.findOne({ table_id: table_id }, function (err, table) {
+      if (err) reject(err);
+
+      if (table != null) {
+        resolve({
+          ...table,
+          tableNumber: tableNumber,
+        });
+      } else {
+        resolve({
+          tableNumber: null,
+        });
+      }
+    });
+  });
+};
+
 module.exports= {
     createNewTable: createNewTable,
     findAvailableTables: findAvailableTables,
     bookTable: bookTable,
-    cancelBookedTable: cancelBookedTable
+    cancelBookedTable: cancelBookedTable,
+    getTableNumber: getTableNumber
 }
