@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   Paper,
@@ -9,68 +9,111 @@ import {
 } from "@material-ui/core";
 import Styles, { STextField } from "../Styles";
 import InputMask from "react-input-mask";
+import HomeContext from "../HomeContext";
 
 function RegForm(props) {
+  const { switchMethod } = useContext(HomeContext);
   const { classes } = props;
 
   return (
     <Container maxWidth="xs">
-      <Paper elevation={3} className={classes.middleground}>
-        <Grid container direction="column" justify="center" alignItems="center">
-          <Typography
-            variant="h3"
-            className={`${classes.formRows} ${classes.text}`}
-          >
-            Registration
-          </Typography>
+      <Typography className={classes.logo}>
+        <img
+          style={{ height: 350 }}
+          src={require("../../../Assets/dineout.png")}
+          alt="Logo"
+        />
+      </Typography>
+      <Paper elevation={2} square className={classes.middleground}>
+        <Grid container
+              direction="row"
+              justify="center"
+              alignItems="center" spacing={0}>
 
-          <STextField
-            variant="outlined"
-            label="Username"
-            className={classes.formRows}
-          />
+          <Grid item xs={12}>
+            <Typography
+              variant="h3"
+              className={`${classes.formRows} ${classes.text}`}
+            >
+              Create your Dineout account
+            </Typography>
+          </Grid>
 
-          <STextField
-            variant="outlined"
-            label="Password"
-            type="password"
-            className={classes.formRows}
-          />
+          <Grid item xs={6}>
+            <STextField
+              variant="outlined"
+              label="Username"
+              width="400px"
+              className={classes.signformRows}
+            />
+          </Grid>
 
+          <Grid item xs={6}>
+            <STextField
+              variant="outlined"
+              label="Password"
+              type="password"
+              className={classes.signformRows}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
           <STextField
             variant="outlined"
             label="First name"
-            className={classes.formRows}
+            className={classes.signformRows}
           />
+          </Grid>
 
+          <Grid item xs={6}>
           <STextField
             variant="outlined"
             label="Last name"
-            className={classes.formRows}
+            className={classes.signformRows}
           />
+          </Grid>
 
+          <Grid item xs={6}>
           <STextField
             variant="outlined"
             label="Email"
-            className={classes.formRows}
+            className={classes.signformRows}
           />
+          </Grid>
 
+          <Grid item xs={6}>
           <InputMask mask="+61 499 999 999">
             {() => (
               <STextField
                 variant="outlined"
                 label="Phone number"
-                className={classes.formRows}
+                className={classes.signformRows}
               />
             )}
           </InputMask>
+          </Grid>
 
+          <Grid item xs={12}>
           <Button
-            className={`${classes.formRows} ${classes.button}`}
+            className={`${classes.signformRows} ${classes.signupButton}`}
             variant="contained"
           >
-            Submit
+            Sign Up
           </Button>
+          </Grid>
+
+          <Typography className={`${classes.formRows} ${classes.bottomText}`}>
+            Already use Dineout?
+            <Typography
+              className={`${classes.formRows} ${classes.bottomText}`}
+              style={{
+                color: "#54B82A",
+                cursor: "pointer",
+              }}
+              onClick={switchMethod}
+            >Log in
+            </Typography>
+          </Typography>
         </Grid>
       </Paper>
     </Container>
