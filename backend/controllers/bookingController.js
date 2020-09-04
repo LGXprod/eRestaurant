@@ -6,7 +6,7 @@ module.exports = (app) => {
   app.post("/Booking", (req, res) => {
     res.send("hello");
     table
-      .findAvailableTables((tables) => {
+      .findAvailableTables(() => {
         console.log(tables);
       })
       .catch((err) => console.log(err));
