@@ -16,7 +16,7 @@ import HomeContext from "../HomeContext";
 const cookies = new Cookies();
 
 const LoginForm = (props) => {
-  const { switchMethod } = useContext(HomeContext);
+  const switchMethod = useContext(HomeContext);
   const { classes } = props;
 
   const [username, setUsername] = useState("");
@@ -67,7 +67,7 @@ const LoginForm = (props) => {
   return (
     <React.Fragment>
       <Container maxWidth="xs">
-        <Typography className={classes.logo}>
+        <Typography component={'div'} className={classes.logo}>
           <img
             style={{ height: 350 }}
             src={require("../../../Assets/dineout.png")}
@@ -81,7 +81,7 @@ const LoginForm = (props) => {
             justify="center"
             alignItems="center"
           >
-            <Typography
+            <Typography component={'div'}
               className={`${classes.formRows} ${classes.text}`}
               variant="h3"
             >
@@ -110,19 +110,19 @@ const LoginForm = (props) => {
             {isUser === null ? null : isUser ? (
               <Redirect to="/Dashboard" />
             ) : (
-              <Typography variant="caption">
+              <Typography component={'div'} variant="caption">
                 Incorrect username or password.
               </Typography>
             )}
 
-            <Button
+            <Button data-testid = "buttonTest" 
               className={`${classes.formRows} ${classes.loginButton}`}
               variant="contained"
               onClick={() => checkLogin(username, password)}
             >
               Login
             </Button>
-            <Typography className={`${classes.formRows} ${classes.bottomText}`}>
+            <Typography component={'div'} className={`${classes.formRows} ${classes.bottomText}`}>
               Don't have an account?
               <Typography
                 className={`${classes.formRows} ${classes.bottomText}`}
