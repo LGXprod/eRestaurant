@@ -8,6 +8,7 @@ restaurantApp.use(bodyParser.urlencoded({ extended: true }));
 
 const loginController = require("./controllers/loginController");
 const bookingController = require("./controllers/bookingController");
+const registrationController = require("./controllers/registrationController");
 
 restaurantApp.listen(5000, function () {
   console.log("Server running on port 5000");
@@ -22,11 +23,8 @@ const mongoURI = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.bf9ms.
     useUnifiedTopology: true,
   });
 
-<<<<<<< HEAD
-  loginController(restaurantApp);
-})();
-=======
     loginController(restaurantApp);
+    registrationController(restaurantApp);
     bookingController(restaurantApp);
 })();
->>>>>>> feature/booking
+
