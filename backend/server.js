@@ -22,11 +22,6 @@ const mongoURI = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.bf9ms.
     useUnifiedTopology: true,
   });
 
-<<<<<<< HEAD
-  loginController(restaurantApp);
-})();
-=======
     loginController(restaurantApp);
     bookingController(restaurantApp);
 })();
->>>>>>> feature/booking
