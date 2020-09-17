@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -6,6 +6,8 @@ import {
   Container,
   Button,
   withStyles,
+  Menu,
+  MenuItem,
 } from "@material-ui/core";
 import Styles, { STextField } from "../Styles";
 import InputMask from "react-input-mask";
@@ -14,10 +16,12 @@ import HomeContext from "../HomeContext";
 function RegForm(props) {
   const { switchMethod } = useContext(HomeContext);
   const { classes } = props;
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [formCompleted, setFormCompleted] = useState(null);
+  const [registerStaff, setRegisterStaff] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const customer = {
     username: null,
     password: null,
     fName: null,
@@ -25,7 +29,27 @@ function RegForm(props) {
     email: null,
     mobileNum: null,
     role: "customer",
-  });
+  };
+
+  const staff = {
+    username: null,
+    password: null,
+    fName: null,
+    sName: null,
+    email: null,
+    mobileNum: null,
+    role: null,
+  };
+
+  const [formData, setFormData] = useState(customer);
+
+  useEffect(() => {
+    if (registerStaff) {
+      setFormData(staff);
+    } else {
+      setFormData(customer);
+    }
+  }, [registerStaff]);
 
   function updateFormData(value, prop) {
     let updatedFormData = formData;
@@ -51,6 +75,14 @@ function RegForm(props) {
 
     setFormCompleted(completed);
   }
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Container maxWidth="xs">
@@ -140,6 +172,105 @@ function RegForm(props) {
             </InputMask>
           </Grid>
 
+          {registerStaff ? (
+            <React.Fragment>
+              <Grid item xs={6}>
+                <InputMask
+                  mask="99999999"
+                  onChange={(e) => updateFormData(e.target.value, "mobileNum")}
+                >
+                  {() => (
+                    <STextField
+                      variant="outlined"
+                      label="TFN"
+                      className={classes.signformRows}
+                    />
+                  )}
+                </InputMask>
+              </Grid>
+
+              <Grid item xs={6}>
+                <STextField
+                  variant="outlined"
+                  label="Account Name"
+                  className={classes.signformRows}
+                  onChange={(e) => updateFormData(e.target.value, "email")}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <InputMask
+                  mask="999999999999"
+                  onChange={(e) => updateFormData(e.target.value, "mobileNum")}
+                >
+                  {() => (
+                    <STextField
+                      variant="outlined"
+                      label="Account Number"
+                      className={classes.signformRows}
+                    />
+                  )}
+                </InputMask>
+              </Grid>
+
+              <Grid item xs={6}>
+                <InputMask
+                  mask="999999"
+                  onChange={(e) => updateFormData(e.target.value, "mobileNum")}
+                >
+                  {() => (
+                    <STextField
+                      variant="outlined"
+                      label="BSB"
+                      className={classes.signformRows}
+                    />
+                  )}
+                </InputMask>
+              </Grid>
+
+              <Button
+                className={`${classes.signformRows} ${classes.signupButton}`}
+                variant="contained"
+                onClick={handleClick}
+              >
+                {formData.role == null ? "Select Role" : formData.role}
+              </Button>
+
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    updateFormData("Management", "role");
+                  }}
+                >
+                  Management
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    updateFormData("Customer Service", "role");
+                  }}
+                >
+                  Customer Service
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    updateFormData("Chef", "role");
+                  }}
+                >
+                  Chef
+                </MenuItem>
+              </Menu>
+            </React.Fragment>
+          ) : null}
+
           <Grid item xs={12}>
             <Button
               className={`${classes.signformRows} ${classes.signupButton}`}
@@ -169,6 +300,20 @@ function RegForm(props) {
               onClick={switchMethod}
             >
               Log in
+            </Typography>
+          </Typography>
+
+          <Typography className={`${classes.formRows} ${classes.bottomText}`}>
+            Registering as a {!registerStaff ? "staff member" : "customer "}?
+            <Typography
+              className={`${classes.formRows} ${classes.bottomText}`}
+              style={{
+                color: "#54B82A",
+                cursor: "pointer",
+              }}
+              onClick={() => setRegisterStaff(!registerStaff)}
+            >
+              {!registerStaff ? "Staff" : "Customer"} Registration
             </Typography>
           </Typography>
         </Grid>
