@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Grid,
   Paper,
@@ -15,6 +15,43 @@ function RegForm(props) {
   const { switchMethod } = useContext(HomeContext);
   const { classes } = props;
 
+  const [formCompleted, setFormCompleted] = useState(null);
+
+  const [formData, setFormData] = useState({
+    username: null,
+    password: null,
+    fName: null,
+    sName: null,
+    email: null,
+    mobileNum: null,
+    role: "customer",
+  });
+
+  function updateFormData(value, prop) {
+    let updatedFormData = formData;
+
+    if (value !== "") {
+      updatedFormData[prop] = value;
+    } else {
+      updatedFormData[prop] = null;
+    }
+
+    setFormData(updatedFormData);
+  }
+
+  function registerUser() {
+    let completed = true;
+
+    for (let prop in formData) {
+      if (formData[prop] == null) {
+        completed = false;
+        break;
+      }
+    }
+
+    setFormCompleted(completed);
+  }
+
   return (
     <Container maxWidth="xs">
       <Typography className={classes.logo}>
@@ -25,11 +62,13 @@ function RegForm(props) {
         />
       </Typography>
       <Paper elevation={2} square className={classes.middleground}>
-        <Grid container
-              direction="row"
-              justify="center"
-              alignItems="center" spacing={0}>
-
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={0}
+        >
           <Grid item xs={12}>
             <Typography
               variant="h3"
@@ -45,6 +84,7 @@ function RegForm(props) {
               label="Username"
               width="400px"
               className={classes.signformRows}
+              onChange={(e) => updateFormData(e.target.value, "username")}
             />
           </Grid>
 
@@ -54,53 +94,69 @@ function RegForm(props) {
               label="Password"
               type="password"
               className={classes.signformRows}
+              onChange={(e) => updateFormData(e.target.value, "password")}
             />
           </Grid>
 
           <Grid item xs={6}>
-          <STextField
-            variant="outlined"
-            label="First name"
-            className={classes.signformRows}
-          />
+            <STextField
+              variant="outlined"
+              label="First name"
+              className={classes.signformRows}
+              onChange={(e) => updateFormData(e.target.value, "fName")}
+            />
           </Grid>
 
           <Grid item xs={6}>
-          <STextField
-            variant="outlined"
-            label="Last name"
-            className={classes.signformRows}
-          />
+            <STextField
+              variant="outlined"
+              label="Last name"
+              className={classes.signformRows}
+              onChange={(e) => updateFormData(e.target.value, "sName")}
+            />
           </Grid>
 
           <Grid item xs={6}>
-          <STextField
-            variant="outlined"
-            label="Email"
-            className={classes.signformRows}
-          />
+            <STextField
+              variant="outlined"
+              label="Email"
+              className={classes.signformRows}
+              onChange={(e) => updateFormData(e.target.value, "email")}
+            />
           </Grid>
 
           <Grid item xs={6}>
-          <InputMask mask="+61 499 999 999">
-            {() => (
-              <STextField
-                variant="outlined"
-                label="Phone number"
-                className={classes.signformRows}
-              />
-            )}
-          </InputMask>
+            <InputMask
+              mask="+61 499 999 999"
+              onChange={(e) => updateFormData(e.target.value, "mobileNum")}
+            >
+              {() => (
+                <STextField
+                  variant="outlined"
+                  label="Phone number"
+                  className={classes.signformRows}
+                />
+              )}
+            </InputMask>
           </Grid>
 
           <Grid item xs={12}>
-          <Button
-            className={`${classes.signformRows} ${classes.signupButton}`}
-            variant="contained"
-          >
-            Sign Up
-          </Button>
+            <Button
+              className={`${classes.signformRows} ${classes.signupButton}`}
+              variant="contained"
+              onClick={registerUser}
+            >
+              Sign Up
+            </Button>
           </Grid>
+
+          {formCompleted == null || formCompleted ? null : (
+            <Grid item xs={6}>
+              <Typography variant="caption">
+                Form has not been correctly filled out.
+              </Typography>
+            </Grid>
+          )}
 
           <Typography className={`${classes.formRows} ${classes.bottomText}`}>
             Already use Dineout?
@@ -111,7 +167,8 @@ function RegForm(props) {
                 cursor: "pointer",
               }}
               onClick={switchMethod}
-            >Log in
+            >
+              Log in
             </Typography>
           </Typography>
         </Grid>
