@@ -41,6 +41,10 @@ function RegForm(props) {
     sName: null,
     email: null,
     mobileNum: null,
+    TFN: null,
+    accountName: null,
+    BSB: null,
+    accountNum: null,
     role: null,
   };
 
@@ -192,7 +196,7 @@ function RegForm(props) {
               <Grid item xs={6}>
                 <InputMask
                   mask="99999999"
-                  onChange={(e) => updateFormData(e.target.value, "mobileNum")}
+                  onChange={(e) => updateFormData(e.target.value, "TFN")}
                 >
                   {() => (
                     <STextField
@@ -209,14 +213,14 @@ function RegForm(props) {
                   variant="outlined"
                   label="Account Name"
                   className={classes.signformRows}
-                  onChange={(e) => updateFormData(e.target.value, "email")}
+                  onChange={(e) => updateFormData(e.target.value, "accountName")}
                 />
               </Grid>
 
               <Grid item xs={6}>
                 <InputMask
                   mask="999999999999"
-                  onChange={(e) => updateFormData(e.target.value, "mobileNum")}
+                  onChange={(e) => updateFormData(e.target.value, "accountNum")}
                 >
                   {() => (
                     <STextField
@@ -231,7 +235,7 @@ function RegForm(props) {
               <Grid item xs={6}>
                 <InputMask
                   mask="999999"
-                  onChange={(e) => updateFormData(e.target.value, "mobileNum")}
+                  onChange={(e) => updateFormData(e.target.value, "BSB")}
                 >
                   {() => (
                     <STextField
