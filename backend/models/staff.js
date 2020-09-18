@@ -90,6 +90,25 @@ const createNewStaffMem = (formData) => {
   });
 };
 
+const checkLogin = (username, password) => {
+  return new Promise((resolve, reject) => {
+    staff.findById(username, function(err, staffMem) {
+      if (err) reject(err);
+
+      if (staffMem != null) {
+        if (staffMem.password === password) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      } else {
+        resolve(false);
+      }
+    });
+  });
+};
+
 module.exports = {
   createNewStaffMem,
+  checkLogin,
 };
