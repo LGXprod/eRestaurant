@@ -7,16 +7,12 @@ import {
   Button,
   withStyles,
 } from "@material-ui/core";
-import queryString from "querystring";
 import { Redirect } from "react-router-dom";
-import Cookies from "universal-cookie";
 import Styles, { STextField } from "../Styles";
 import HomeContext from "../HomeContext";
 
-const cookies = new Cookies();
-
 const LoginForm = (props) => {
-  const { switchMethod } = useContext(HomeContext);
+  const { switchMethod, checkLogin } = useContext(HomeContext);
   const { classes } = props;
 
   const [username, setUsername] = useState("");
@@ -30,39 +26,6 @@ const LoginForm = (props) => {
   useEffect(() => {
     if ((password === "") & (username === "")) setIsUser(null);
   }, [username, password]);
-
-  // setIsUser(null)
-
-  async function checkLogin(username, password) {
-    const response = await fetch("/Login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/x-www-form-urlencoded",
-      },
-      body: queryString.stringify({
-        username: username,
-        password: password,
-      }),
-    });
-
-    response
-      .json()
-      .then((res) => {
-        if (res.auth) {
-          const expiryDate = new Date();
-          expiryDate.setMinutes(expiryDate.getMinutes() + 30);
-          console.log(expiryDate);
-
-          cookies.set("Session id", res.session_id, {
-            expires: expiryDate,
-          });
-          setIsUser(true);
-        } else {
-          setIsUser(false);
-        }
-      })
-      .catch((err) => console.log(err));
-  }
 
   return (
     <React.Fragment>
@@ -118,7 +81,7 @@ const LoginForm = (props) => {
             <Button
               className={`${classes.formRows} ${classes.loginButton}`}
               variant="contained"
-              onClick={() => checkLogin(username, password)}
+              onClick={() => setIsUser(checkLogin(username, password))}
             >
               Login
             </Button>

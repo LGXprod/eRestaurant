@@ -16,13 +16,13 @@ import queryString from "querystring";
 import { Redirect } from "react-router-dom";
 
 function RegForm(props) {
-  const { switchMethod } = useContext(HomeContext);
+  const { switchMethod, checkLogin } = useContext(HomeContext);
   const { classes } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const [formCompleted, setFormCompleted] = useState(null);
   const [registerStaff, setRegisterStaff] = useState(false);
-  const [loginUser, setLoginUser] = useState(false);
+  const [isUser, setIsUser] = useState(false);
 
   const customer = {
     username: null,
@@ -95,7 +95,7 @@ function RegForm(props) {
     });
 
     if (res.status === 200) {
-      
+      setIsUser(checkLogin(formData.username, formData.password));
     }
   }
 
@@ -334,7 +334,7 @@ function RegForm(props) {
         </Grid>
       </Paper>
 
-      {loginUser ? <Redirect to="/Dashboard" /> : null}
+      {isUser ? <Redirect to="/Dashboard" /> : null}
     </Container>
   );
 }
