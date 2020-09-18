@@ -12,6 +12,8 @@ import {
 import Styles, { STextField } from "../Styles";
 import InputMask from "react-input-mask";
 import HomeContext from "../HomeContext";
+import queryString from "querystring";
+import { Redirect } from "react-router-dom";
 
 function RegForm(props) {
   const { switchMethod } = useContext(HomeContext);
@@ -20,6 +22,7 @@ function RegForm(props) {
 
   const [formCompleted, setFormCompleted] = useState(null);
   const [registerStaff, setRegisterStaff] = useState(false);
+  const [loginUser, setLoginUser] = useState(false);
 
   const customer = {
     username: null,
@@ -63,7 +66,15 @@ function RegForm(props) {
     setFormData(updatedFormData);
   }
 
-  function registerUser() {
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  async function registerUser() {
     let completed = true;
 
     for (let prop in formData) {
@@ -74,15 +85,19 @@ function RegForm(props) {
     }
 
     setFormCompleted(completed);
+
+    const res = await fetch("/Registration", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+      },
+      body: queryString.stringify(formData),
+    });
+
+    if (res.status === 200) {
+      
+    }
   }
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <Container maxWidth="xs">
@@ -318,6 +333,8 @@ function RegForm(props) {
           </Typography>
         </Grid>
       </Paper>
+
+      {loginUser ? <Redirect to="/Dashboard" /> : null}
     </Container>
   );
 }
