@@ -261,7 +261,7 @@ function RegForm(props) {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    updateFormData("Management", "role");
+                    updateFormData("management", "role");
                   }}
                 >
                   Management
@@ -269,7 +269,7 @@ function RegForm(props) {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    updateFormData("Customer Service", "role");
+                    updateFormData("customer service", "role");
                   }}
                 >
                   Customer Service
@@ -277,7 +277,7 @@ function RegForm(props) {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    updateFormData("Chef", "role");
+                    updateFormData("chef", "role");
                   }}
                 >
                   Chef
