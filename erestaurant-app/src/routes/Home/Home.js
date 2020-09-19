@@ -36,7 +36,7 @@ function Home() {
       .then((res) => {
         if (res.auth) {
           const expiryDate = new Date();
-          expiryDate.setMinutes(expiryDate.getMinutes() + 30);
+          expiryDate.setMinutes(expiryDate.getMinutes() + 60);
           console.log(expiryDate);
 
           cookies.set("Session id", res.session_id, {
