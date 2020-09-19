@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const sessionSchema = mongoose.Schema({
   _id: String,
   customer_id: String,
+  createdAt: { type: Date, expires: "60m", default: Date.now },
 });
 
 const Session = mongoose.model("Session", sessionSchema);
@@ -12,7 +13,7 @@ const createSession = (customer_id) => {
   return new Promise((resolve, reject) => {
     Session.deleteMany({ customer_id: customer_id }, function (err) {
       if (err) reject(err);
-      
+
       const session_id = crypto.randomBytes(16).toString("base64");
 
       const newSession = new Session({
