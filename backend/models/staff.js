@@ -19,6 +19,20 @@ const bankDetailsSchema = new mongoose.Schema({
   },
 });
 
+const managementSchema = new mongoose.Schema({
+  salary: Number,
+  notes: String
+});
+
+const chefSchema = new mongoose.Schema({
+  salary: Number,
+  chefType: String,
+});
+
+const customerServiceSchema = new mongoose.Schema({
+  wage: Number,
+});
+
 const staffSchema = new mongoose.Schema({
   _id: {
     type: String,
@@ -56,13 +70,21 @@ const staffSchema = new mongoose.Schema({
     required: [true, "Missing prop"],
   },
   role: {
-    type: String,
-    required: [true, "Missing prop"],
-  },
+    roleName: String,
+    management: managementSchema,
+    chef: chefSchema,
+    customerService: customerServiceSchema,
+  }
 });
 
 const staff = mongoose.model("Staff", staffSchema, "staff");
 const bankDetails = mongoose.model("BankDetail", bankDetailsSchema);
+const management = mongoose.model("Management", managementSchema);
+const chef = mongoose.model("Chef", chefSchema);
+const customerService = mongoose.model(
+  "CustomerService",
+  customerServiceSchema
+);
 
 const createNewStaffMem = (formData) => {
   return new Promise((resolve, reject) => {
@@ -76,6 +98,38 @@ const createNewStaffMem = (formData) => {
     delete formData.accountName;
     delete formData.BSB;
 
+    const role = formData.role;
+    delete formData.role;
+
+    switch (role) {
+      case "management":
+        formData.role = {
+          roleName: "management",
+          management: new management({
+            salary: 0,
+            notes: "",
+          }),
+        }
+        break;
+      case "customer service":
+        formData.role = {
+          roleName: "customer service",
+          customerService: new customerService({
+            wage: 0
+          }),
+        }
+        break;
+      case "chef":
+        formData.role = {
+          roleName: "chef",
+          chef: new chef({
+            salary: 0,
+            chefType: ""
+          }),
+        }
+        break;
+    }
+
     formData._id = formData.username;
     delete formData.username;
     console.log(formData);
@@ -83,6 +137,7 @@ const createNewStaffMem = (formData) => {
     const staffMem = new staff(formData);
 
     staffMem.save(function (err) {
+      console.log(err)
       if (err) reject(err);
 
       resolve();
@@ -92,7 +147,7 @@ const createNewStaffMem = (formData) => {
 
 const checkLogin = (username, password) => {
   return new Promise((resolve, reject) => {
-    staff.findById(username, function(err, staffMem) {
+    staff.findById(username, function (err, staffMem) {
       if (err) reject(err);
 
       if (staffMem != null) {
