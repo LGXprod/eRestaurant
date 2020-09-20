@@ -1,35 +1,24 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {
-  Grid,
   Paper,
   Typography,
-  Container,
+  Grid,
+  Button,
+  withStyles,
 } from "@material-ui/core";
+import Navbar from './Navbar';
+import { Helmet } from "react-helmet";
+import DashboardStyles from "../DashboardStyles";
 
 const BookingPage = (props) =>{
-
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      marginLeft: 106,
-    },
-    card: {
-      margin: theme.spacing(1),
-      width: theme.spacing(40),
-      height: theme.spacing(40),
-    },
-    text: {
-      fontFamily: 'Nunito-Bold',
-      fontSize: '1.2vw',
-      marginTop: -48
-    }
-  }));
-
-  const classes = useStyles();
-
+  const { classes } = props;
+  
   return (
     <div className={classes.root}>
+    <Helmet>
+      <title>Dineout | Book a table</title>
+    </Helmet>
+      <Navbar />
         <Typography
           className={classes.text}
           variant="h3"
@@ -37,10 +26,37 @@ const BookingPage = (props) =>{
           Select a Restaurant
         </Typography>
 
-        <Paper variant="outlined" className={classes.card}/>
+        <Paper elevation={2} square  className={classes.card}>
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+        >
+        <Typography className={classes.restPhoto}>
+          <img
+            style={{ width: "100%" }}
+            src={require("../../../Assets/restaurant1photo.jpg")}
+            alt="Logo"
+          />
+        </Typography>
+        <Typography
+          className={classes.restText}
+          variant="h3"
+        >
+          Le Bistrot d'Andre
+        </Typography>
+        <Button
+          className={classes.restButton}
+          variant="contained"
+        >
+          Select
+        </Button>
 
+        </Grid>
+        </Paper>
     </div>
   )
 }
 
-export default BookingPage;
+export default withStyles(DashboardStyles)(BookingPage);

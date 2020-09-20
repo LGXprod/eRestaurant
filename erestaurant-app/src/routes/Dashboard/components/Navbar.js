@@ -13,10 +13,8 @@ const Navbar = (props) => {
     flexGrow: 1,
   },
   homeButton: {
-    marginLeft: "20px",
     textTransform: "none",
     fontFamily: 'Nunito-Bold',
-    float: "right",
     marginTop: -120,
   },
   bookButton: {
@@ -31,11 +29,12 @@ const Navbar = (props) => {
     color: "#54B82A",
     fontFamily: 'Nunito-Bold',
     marginTop: -120,
-    marginRight: 77,
+    marginRight: -31,
   },
   logo: {
     maxWidth: 300,
     marginTop: -80,
+    marginLeft: -108,
   },
   title: {
    flexGrow: 1,

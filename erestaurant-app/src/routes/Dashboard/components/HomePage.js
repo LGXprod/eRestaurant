@@ -1,32 +1,19 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import {
+  Typography,
+  withStyles,
+} from "@material-ui/core";
+import Navbar from './Navbar';
+import DashboardStyles from "../DashboardStyles";
 
 const HomePage = (props) =>{
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      marginTop: -50,
-      marginRight: 106,
-      marginLeft: 106
-    },
-    title: {
-      fontFamily: 'Nunito-Bold',
-      fontSize: '1.5vw'
-    },
-    logo: {
-      maxWidth: '600px',
-      float: "right",
-      marginTop: -90
-    },
-  }));
-
-  const classes = useStyles();
+  const { classes } = props;
 
   return (
     <div className={classes.root}>
-
-    <Typography className={classes.title}>
+    <Navbar />
+    <Typography className={classes.title} style={{ marginTop: -60 }}>
       Book a table and order your favourite
     </Typography>
     <Typography className={classes.title}>
@@ -42,4 +29,4 @@ const HomePage = (props) =>{
   )
 }
 
-export default HomePage;
+export default withStyles(DashboardStyles)(HomePage);
