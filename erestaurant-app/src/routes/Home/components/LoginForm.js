@@ -20,10 +20,6 @@ const LoginForm = (props) => {
   const [isUser, setIsUser] = useState(null);
 
   useEffect(() => {
-    console.log("x", isUser);
-  }, [isUser]);
-
-  useEffect(() => {
     if ((password === "") & (username === "")) setIsUser(null);
   }, [username, password]);
 
