@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 
+// Using history in props for routing to different components
 const Navbar = (props) => {
 
   const useStyles = makeStyles((theme) => ({
@@ -75,5 +76,6 @@ const Navbar = (props) => {
     </div>
   );
 }
-
+// Wrapping Navbar in a withRouter function in order to give it access to
+// this.props.history to redirect the user to the different components
 export default withRouter(Navbar);
