@@ -42,7 +42,7 @@ function Menu() {
         />
       </Button>
 
-      <Button onChange={(e) => submitNewItem(e)}>Submit</Button>
+      <Button onClick={(e) => submitNewItem(e)}>Submit</Button>
     </Fragment>
   );
 }
