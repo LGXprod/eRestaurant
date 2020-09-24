@@ -12,7 +12,7 @@ import DashboardStyles from "../DashboardStyles";
 
 const BookingPage = (props) =>{
   const { classes } = props;
-  
+
   return (
     <div className={classes.root}>
     <Helmet>

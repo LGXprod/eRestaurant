@@ -1,6 +1,5 @@
 const useStyles = (theme) => ({
   root: {
-    display: 'block',
     flexGrow: 1,
   },
   card: {

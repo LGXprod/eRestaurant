@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import HomePage from './components/HomePage';
 import BookingPage from './components/BookingPage';
+import UserAccount from './components/UserAccount';
 
 class Dashboard extends Component {
   render(){
@@ -14,6 +15,7 @@ class Dashboard extends Component {
       </Helmet>
       <Route exact path ='/Dashboard' component={HomePage} />
       <Route path='/BookingPage' component={BookingPage} />
+      <Route path='/UserAccount' component={UserAccount} />
       </div>
       </BrowserRouter>
     );

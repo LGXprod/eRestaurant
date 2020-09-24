@@ -16,11 +16,13 @@ const Navbar = (props) => {
   homeButton: {
     textTransform: "none",
     fontFamily: 'Nunito-Bold',
+    color: "black",
     marginTop: -120,
   },
   bookButton: {
     marginLeft: "20px",
     textTransform: "none",
+    color: "black",
     fontFamily: 'Nunito-Bold',
     marginTop: -120,
   },
@@ -52,21 +54,28 @@ const Navbar = (props) => {
             <img src={require("../../../Assets/dineout.png")} alt="logo" className={classes.logo} />
           </Typography>
           <Button
-            color="black"
+            color="inherit"
             className={classes.homeButton}
             onClick={() => props.history.push('/Dashboard')}
           >
             Home
           </Button>
           <Button
-            color="black"
+            color="inherit"
             className={classes.bookButton}
             onClick={() => props.history.push('/BookingPage')}
           >
           Book a table
           </Button>
           <Button
-            color="black"
+            color="inherit"
+            className={classes.bookButton}
+            onClick={() => props.history.push('/UserAccount')}
+          >
+          Account
+          </Button>
+          <Button
+            color="inherit"
             className={classes.logoutButton}
           >
           Logout

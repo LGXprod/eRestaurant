@@ -60,7 +60,7 @@ function RegForm(props) {
           <Grid item xs={6}>
           <STextField
             variant="outlined"
-            label="First name"
+            label="First Name"
             className={classes.signformRows}
           />
           </Grid>
@@ -68,7 +68,7 @@ function RegForm(props) {
           <Grid item xs={6}>
           <STextField
             variant="outlined"
-            label="Last name"
+            label="Last Name"
             className={classes.signformRows}
           />
           </Grid>
@@ -86,7 +86,7 @@ function RegForm(props) {
             {() => (
               <STextField
                 variant="outlined"
-                label="Phone number"
+                label="Phone Number"
                 className={classes.signformRows}
               />
             )}
