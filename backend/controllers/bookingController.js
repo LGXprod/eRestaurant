@@ -15,17 +15,25 @@ module.exports = (app) => {
   // });
 
   app.post("/Booking", (req, res) => {
-    const table_id = new mongoose.Types.ObjectId(req.body.table_id);
-    console.log(typeof table_id)
-    booking.createNewBooking(req.body.customer_id, table_id, req.body.date).then(() => {
-      res.sendStatus(200);
-    }).catch(err => console.log(err));
+    booking
+      .createNewBooking(
+        req.body.customer_id,
+        new mongoose.Types.ObjectId(req.body.table_id),
+        req.body.date
+      )
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => console.log(err));
   });
 
   app.delete("/Booking", (req, res) => {
-    console.log("Booking ->", req.query.booking_id)
-    booking.deleteBooking(req.query.booking_id).then(() => {
-      res.status(200);
-    }).catch(err => console.log(err));
+    // frontend must uri encode the booking_id when before using it as a url parameter
+    booking
+      .deleteBooking(new mongoose.Types.ObjectId(decodeURIComponent(req.query.booking_id)))
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => console.log(err));
   });
 };

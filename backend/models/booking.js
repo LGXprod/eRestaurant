@@ -4,7 +4,6 @@ const crypto = require("crypto");
 const customer = require("./customer");
 
 const bookingSchema = new mongoose.Schema({
-  _id: String,
   tableID: String,
   customerID: String,
   bookingDate: Date, //not sure if date is correct type//
@@ -14,42 +13,51 @@ const Booking = mongoose.model("Booking", bookingSchema);
 
 const createNewBooking = (customer_id, table_id, bookingDate) => {
   return new Promise((resolve, reject) => {
-    const booking_id = crypto.randomBytes(16).toString("base64");
+    table
+      .getTableNumber(table_id)
+      .then((tableNumber) => {
+        table
+          .bookTable(tableNumber)
+          .then(() => {
+            const newBooking = new Booking({
+              customerID: customer_id,
+              tableID: table_id,
+              bookingDate: bookingDate,
+            });
 
-    table.getTableNumber(table_id).then(tableNumber => {
-      table.bookTable(tableNumber).then(() => {
+            console.log("newBooking", newBooking);
 
-        const newBooking = new Booking({
-          _id: booking_id,
-          customerID: customer_id,
-          tableID: table_id,
-          bookingDate: bookingDate,
-        });
-    
-        console.log("newBooking", newBooking);
-    
-        newBooking.save(function (err) {
-          if (err) reject(err);
-    
-          resolve();
-        });
+            newBooking.save(function (err) {
+              if (err) reject(err);
 
-      }).catch(err => console.log(err));
-    }).catch(err => console.log(err));
-
+              resolve();
+            });
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
   });
 };
 
-const deleteBooking = async (booking_id) => {
-  const table_id = await Booking.findById(booking_id).exec();
+const deleteBooking = (booking_id) => {
+  return new Promise((resolve, reject) => {
+    Booking.findByIdAndDelete(booking_id, { _id: 0, tableID: 1 }, function (
+      err,
+      tableID
+    ) {
+      if (err) reject(err);
 
-  console.log("table_id", table_id);
-
-  table.getTableNumber(booking.tableID).then(tableNumber => {
-    table.cancelBookedTable(tableNumber).then(() => {
+      table
+        .getTableNumber(tableID.tableID)
+        .then((tableNumber) => {
+          table.cancelBookedTable(tableNumber).then(() => {
+            resolve();
+          });
+        })
+        .catch((err) => console.log(err));
       resolve();
     });
-  }).catch(err => console.log(err));
+  });
 };
 
 module.exports = {
