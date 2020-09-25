@@ -13,17 +13,14 @@ function Menu() {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("img", itemImg);
+    formData.append("itemImg", itemImg);
 
     const sendImg = await fetch("/Menu/Item", {
       method: "POST",
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-      body: queryString.stringify({
-        itemName: "",
-        itemPrice: "",
-      }),
+      // headers: {
+      //   "content-type": "multipart/form-data",
+      // },
+      body: queryString.stringify(formData),
     });
 
     console.log(sendImg);
