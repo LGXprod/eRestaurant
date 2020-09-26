@@ -7,6 +7,7 @@ const restaurantApp = express();
 restaurantApp.use(bodyParser.urlencoded({ extended: true }));
 
 const loginController = require("./controllers/loginController");
+const registrationController = require("./controllers/registrationController");
 const bookingController = require("./controllers/bookingController");
 
 restaurantApp.listen(5000, function () {
@@ -23,5 +24,6 @@ const mongoURI = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.bf9ms.
   });
 
     loginController(restaurantApp);
+    registrationController(restaurantApp);
     bookingController(restaurantApp);
 })();
