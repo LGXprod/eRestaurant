@@ -1,11 +1,24 @@
 import React, { Fragment, useState } from "react";
-import { Button, Container, Typography, Paper, Grid, withStyles } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  Typography,
+  Paper,
+  Grid,
+  withStyles,
+} from "@material-ui/core";
 import queryString from "querystring";
 import Styles, { STextField } from "../Styles";
 
 function Menu(props) {
   const { classes } = props;
   const [itemImg, setItemImg] = useState(null);
+  const [formText, setFormText] = useState({
+    name: null,
+    price: null,
+    desc: null,
+    category: null,
+  });
 
   function uploadImg(e) {
     setItemImg(e.target.files[0]);
@@ -15,7 +28,11 @@ function Menu(props) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("itemImg", itemImg);
+    formData.append("img", itemImg);
+    formData.append("name", formText.name);
+    formData.append("price", formText.price);
+    formData.append("desc", formText.desc);
+    formData.append("category", formText.category);
 
     const sendImg = await fetch("/Menu/Item", {
       method: "POST",
@@ -36,26 +53,89 @@ function Menu(props) {
             alignItems="center"
           >
             <Typography
-              className={`${classes.formRows} ${classes.text}`}
-              variant="h3"
+              className={classes.formRows}
+              variant="h4"
+              inputProps={{
+                classes: {
+                  input: classes.text,
+                },
+              }}
             >
               Add Menu Item
             </Typography>
+
+            <STextField
+              className={classes.formRows}
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+              onChange={(e) => {
+                const updatedFormText = formText;
+                updatedFormText.name = e.target.value;
+                setFormText(updatedFormText);
+              }}
+            />
+
+            <STextField
+              className={classes.formRows}
+              id="outlined-basic"
+              label="Price"
+              variant="outlined"
+              onChange={(e) => {
+                const updatedFormText = formText;
+                updatedFormText.price = e.target.value;
+                setFormText(updatedFormText);
+              }}
+            />
+
+            <STextField
+              className={classes.formRows}
+              id="outlined-basic"
+              label="Description"
+              variant="outlined"
+              multiline
+              rows={5}
+              onChange={(e) => {
+                const updatedFormText = formText;
+                updatedFormText.desc = e.target.value;
+                setFormText(updatedFormText);
+              }}
+            />
+
+            <STextField
+              className={classes.formRows}
+              id="outlined-basic"
+              label="Category"
+              variant="outlined"
+              onChange={(e) => {
+                const updatedFormText = formText;
+                updatedFormText.category = e.target.value;
+                setFormText(updatedFormText);
+              }}
+            />
+
+            <Button
+              variant="contained"
+              component="label"
+              className={classes.formRows}
+            >
+              Upload File
+              <input
+                type="file"
+                style={{ display: "none" }}
+                onChange={(e) => uploadImg(e)}
+              />
+            </Button>
+
+            <Button
+              onClick={(e) => submitNewItem(e)}
+              className={classes.formRows}
+            >
+              Submit
+            </Button>
           </Grid>
         </Paper>
       </Container>
-      <h1>Work</h1>
-
-      <Button variant="contained" component="label">
-        Upload File
-        <input
-          type="file"
-          style={{ display: "none" }}
-          onChange={(e) => uploadImg(e)}
-        />
-      </Button>
-
-      <Button onClick={(e) => submitNewItem(e)}>Submit</Button>
     </Fragment>
   );
 }
