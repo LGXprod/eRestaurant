@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Button } from "@material-ui/core";
+import { Button, Container, Typography, Paper, Grid, withStyles } from "@material-ui/core";
 import queryString from "querystring";
+import Styles, { STextField } from "../Styles";
 
-function Menu() {
+function Menu(props) {
+  const { classes } = props;
   const [itemImg, setItemImg] = useState(null);
 
   function uploadImg(e) {
@@ -17,9 +19,6 @@ function Menu() {
 
     const sendImg = await fetch("/Menu/Item", {
       method: "POST",
-      // headers: {
-      //   "content-type": "multipart/form-data",
-      // },
       body: queryString.stringify(formData),
     });
 
@@ -28,6 +27,23 @@ function Menu() {
 
   return (
     <Fragment>
+      <Container maxWidth="xs">
+        <Paper elevation={2} square className={classes.middleground}>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Typography
+              className={`${classes.formRows} ${classes.text}`}
+              variant="h3"
+            >
+              Add Menu Item
+            </Typography>
+          </Grid>
+        </Paper>
+      </Container>
       <h1>Work</h1>
 
       <Button variant="contained" component="label">
@@ -44,4 +60,4 @@ function Menu() {
   );
 }
 
-export default Menu;
+export default withStyles(Styles)(Menu);
