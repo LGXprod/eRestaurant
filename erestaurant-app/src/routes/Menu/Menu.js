@@ -30,7 +30,7 @@ function Menu(props) {
     const formData = new FormData();
     formData.append("img", itemImg);
     formData.append("name", formText.name);
-    formData.append("price", formText.price);
+    formData.append("price", parseFloat(formText.price));
     formData.append("desc", formText.desc);
     formData.append("category", formText.category);
 
