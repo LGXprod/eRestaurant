@@ -8,7 +8,7 @@ ReactDOM.render(
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/Registration" component={Registration} />
-      <Route path="/Menu" component={Menu} />
+      <Route path="/Menu/Configuration" component={Menu} />
     </Switch>
   </Router>,
   document.getElementById('root')
