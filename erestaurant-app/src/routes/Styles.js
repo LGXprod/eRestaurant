@@ -6,23 +6,23 @@ const useStyles = (theme) => ({
   },
   middleground: {
     backgroundColor: "white",
-    padding: '10px'
+    padding: "10px",
   },
   foreground: {
     backgroundColor: "grey",
   },
   text: {
     color: "Black",
-    marginTop: '100px',
-    fontFamily: 'Nunito-Bold',
+    marginTop: "100px",
+    fontFamily: "Nunito-Bold",
     fontSize: 20,
   },
   bottomText: {
     color: "Black",
-    marginTop: '100px',
-    fontFamily: 'Nunito-Bold',
+    marginTop: "100px",
+    fontFamily: "Nunito-Bold",
     fontSize: 13,
-    display: 'inline-block',
+    display: "inline-block",
   },
   formRows: {
     margin: theme.spacing(1.5),
@@ -30,7 +30,7 @@ const useStyles = (theme) => ({
   },
   signformRows: {
     margin: theme.spacing(1.5),
-    width: '164px',
+    width: "164px",
     textAlign: "center",
   },
   logo: {
@@ -41,63 +41,63 @@ const useStyles = (theme) => ({
   },
   loginButton: {
     backgroundColor: "#54B82A",
-    fontFamily: 'Nunito',
-    textTransform: 'none',
-    fontSize: '19px',
+    fontFamily: "Nunito",
+    textTransform: "none",
+    fontSize: "19px",
     borderRadius: 0,
-    width: '80%',
+    width: "80%",
     color: "white",
     "&:hover": {
       backgroundColor: "#54B82A",
-      color: '#fff',
-    }
+      color: "#fff",
+    },
   },
   signupButton: {
     backgroundColor: "#54B82A",
-    fontFamily: 'Nunito',
-    textTransform: 'none',
-    fontSize: '19px',
+    fontFamily: "Nunito",
+    textTransform: "none",
+    fontSize: "19px",
     borderRadius: 0,
-    width: '93.5%',
+    width: "93.5%",
     color: "white",
     "&:hover": {
       backgroundColor: "#54B82A",
-      color: '#fff',
-    }
+      color: "#fff",
+    },
   },
 });
 
 const STextField = withStyles({
   root: {
-    width: '80%',
+    width: "80%",
 
-    '& label.Mui-focused': {
+    "& label.Mui-focused": {
       color: "grey",
-      fontFamily: 'Nunito-Regular',
+      fontFamily: "Nunito-Regular",
     },
-    '& .MuiFormLabel-root': {
+    "& .MuiFormLabel-root": {
       color: "grey",
-      fontFamily: 'Nunito-Regular',
+      fontFamily: "Nunito-Regular",
     },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: 'grey',
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "grey",
     },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
         borderColor: "grey",
         borderWidth: "1px",
         borderRadius: 0,
-        color: "grey"
+        color: "grey",
       },
-      '&:hover fieldset': {
+      "&:hover fieldset": {
         borderColor: "black",
         borderWidth: "1px",
-        borderRadius: 0
+        borderRadius: 0,
       },
-      '&.Mui-focused fieldset': {
+      "&.Mui-focused fieldset": {
         borderColor: "black",
         borderWidth: "1px",
-        borderRadius: 0
+        borderRadius: 0,
       },
     },
   },
