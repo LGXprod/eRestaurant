@@ -7,7 +7,6 @@ import {
   Grid,
   withStyles,
 } from "@material-ui/core";
-import queryString from "querystring";
 import Styles, { STextField } from "../Styles";
 
 function Menu(props) {
@@ -36,7 +35,7 @@ function Menu(props) {
 
     const sendImg = await fetch("/Menu/Item", {
       method: "POST",
-      body: queryString.stringify(formData),
+      body: formData,
     });
 
     console.log(sendImg);
