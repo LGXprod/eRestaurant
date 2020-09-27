@@ -36,15 +36,29 @@ const menuSchema = new mongoose.Schema({
 const Menu = mongoose.model("Menu", menuSchema);
 const MenuItem = mongoose.model("MenuItem", menuItemSchema);
 
+const getMenu = (category) => {
+  return new Promise((resolve, reject) => {
+    if (category == null) {
+      Menu.find({}, function (err, menus) {
+        if (err) reject(err);
+        resolve(menus);
+      });
+    } else {
+      Menu.findById(category, function (err, menu) {
+        if (err) reject(err);
+        resolve(menu);
+      });
+    }
+  });
+};
+
 const updateMenu = (name, price, desc, category, img) => {
   return new Promise((resolve, reject) => {
     const theMenuItem = new MenuItem({
       name,
       price,
       desc,
-      img: fs.readFileSync(
-        `${path.resolve("./uploads")}/${img.filename}`
-      ),
+      img: fs.readFileSync(`${path.resolve("./uploads")}/${img.filename}`),
     });
     console.log("menu item", theMenuItem);
 
@@ -74,4 +88,5 @@ const updateMenu = (name, price, desc, category, img) => {
 
 module.exports = {
   updateMenu,
+  getMenu,
 };

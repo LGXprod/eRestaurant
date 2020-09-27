@@ -1,7 +1,15 @@
 const menu = require("../models/menu");
-const fs = require("fs");
 
 module.exports = (app, upload) => {
+  app.get("/Menu", (req, res) => {
+    menu
+      .getMenu(req.query.category)
+      .then((menu) => {
+        res.json(menu);
+      })
+      .catch((err) => console.log(err));
+  });
+
   app.post("/Menu/Item", upload.single("img"), (req, res) => {
     menu
       .updateMenu(
