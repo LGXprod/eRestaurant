@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const fs = require("fs");
+const path = require("path");
 
 const menuItemSchema = new mongoose.Schema({
   name: {
@@ -6,7 +8,7 @@ const menuItemSchema = new mongoose.Schema({
     required: [true, "Missing prop"],
   },
   price: {
-    type: String,
+    type: Number,
     required: [true, "Missing prop"],
   },
   desc: {
@@ -34,18 +36,27 @@ const menuSchema = new mongoose.Schema({
 const Menu = mongoose.model("Menu", menuSchema);
 const MenuItem = mongoose.model("MenuItem", menuItemSchema);
 
-const updateMenu = (body) => {
+const updateMenu = (name, price, desc, category, img) => {
   return new Promise((resolve, reject) => {
-    const theMenuItem = new MenuItem(body);
+    const theMenuItem = new MenuItem({
+      name,
+      price,
+      desc,
+      img: fs.readFileSync(
+        `${path.resolve("./uploads")}/${img.filename}`
+      ),
+    });
+    console.log("menu item", theMenuItem);
 
     Menu.findById(category, function (err, menuForCategory) {
       if (err) reject(err);
 
       if (menuForCategory == null) {
         const newCategoryMenu = new Menu({
-          category,
+          _id: category,
           items: [theMenuItem],
         });
+        console.log("menu", newCategoryMenu);
 
         newCategoryMenu.save(function (err) {
           if (err) reject(err);
@@ -53,7 +64,9 @@ const updateMenu = (body) => {
         });
       } else {
         const items = menuForCategory.items.push(theMenuItem);
-        Menu.findByIdAndUpdate(category, { items: items }, (err) => console.log(err));
+        Menu.findByIdAndUpdate(category, { items: items }, (err) =>
+          console.log(err)
+        );
       }
     });
   });
