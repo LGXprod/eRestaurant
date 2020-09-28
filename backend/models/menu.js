@@ -16,7 +16,7 @@ const menuItemSchema = new mongoose.Schema({
     required: [true, "Missing prop"],
   },
   img: {
-    type: Buffer,
+    type: String,
     required: [true, "Missing image"],
   },
 });
@@ -58,7 +58,7 @@ const updateMenu = (name, price, desc, category, img) => {
       name,
       price,
       desc,
-      img: fs.readFileSync(`${path.resolve("./uploads")}/${img.filename}`),
+      img: Buffer.from(fs.readFileSync(`${path.resolve("./uploads")}/${img.filename}`)).toString("base64"),
     });
     console.log("menu item", theMenuItem);
 
