@@ -31,14 +31,22 @@ const useStyles = (theme) => ({
       color: '#fff',
     }
   },
-  title: {
+  mainTitle: {
     fontFamily: 'Nunito-Bold',
+    fontSize: '35px',
+    color: "black",
+  },
+  title: {
+    fontFamily: 'Nunito',
     fontSize: '20px',
   },
   logo: {
-    maxWidth: '600px',
+    maxWidth: '700px',
     float: "right",
-    marginTop: -85
+    marginTop: -140,
+    ['@media (min-width:1650px)']: { // eslint-disable-line no-useless-computed-key
+     maxWidth: '750px',
+   }
   },
 });
 

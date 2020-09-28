@@ -13,7 +13,10 @@ const HomePage = (props) =>{
   return (
     <div className={classes.root}>
     <Navbar />
-    <Typography className={classes.title} style={{ marginTop: -60 }}>
+    <Typography className={classes.mainTitle} style={{ marginTop: -60 }}>
+      Dining made simple
+    </Typography>
+    <Typography className={classes.title} style={{ marginTop: 10 }}>
       Book a table and order your favourite
     </Typography>
     <Typography className={classes.title}>
