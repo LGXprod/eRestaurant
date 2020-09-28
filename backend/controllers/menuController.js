@@ -1,7 +1,27 @@
-module.exports = (app) => {
-  app.post("/Menu/Item", (req, res) => {
-    console.log("files");
+const menu = require("../models/menu");
 
-    res.status("200");
+module.exports = (app, upload) => {
+  app.get("/Menu", (req, res) => {
+    menu
+      .getMenu(req.query.category)
+      .then((menu) => {
+        res.json(menu);
+      })
+      .catch((err) => console.log(err));
   });
-}
+
+  app.post("/Menu/Item", upload.single("img"), (req, res) => {
+    menu
+      .updateMenu(
+        req.body.name,
+        req.body.price,
+        req.body.desc,
+        req.body.category,
+        req.file
+      )
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => console.log(err));
+  });
+};
