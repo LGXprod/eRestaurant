@@ -12,6 +12,7 @@ function Menu() {
         .then(async (menus) => {
           let i = 1;
           for (let menu of menus) {
+            setItems(items.push(<h2>{menu._id}</h2>));
             for (let item of menu.items) {
               let menuItems = items;
               menuItems.push(
@@ -37,7 +38,6 @@ function Menu() {
           }
         })
         .catch((err) => console.log(err));
-
     }
 
     getMenu();
