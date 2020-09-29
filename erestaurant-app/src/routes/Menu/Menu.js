@@ -6,7 +6,7 @@ function Menu() {
   useEffect(() => {
     async function getMenu(category) {
       const res = await fetch(`/Menu?${category}`);
-  
+
       res
         .json()
         .then((menus) => {
@@ -17,7 +17,10 @@ function Menu() {
               let menuItems = items;
               menuItems.push(
                 <div key={i}>
-                  <img alt="Menu item" />
+                  <img
+                    alt="Menu item"
+                    src={`data:image/png;base64, ${item.img}`}
+                  />
                   <h5>{item.name}</h5>
                 </div>
               );
@@ -37,9 +40,7 @@ function Menu() {
   return (
     <Fragment>
       <h1>Working</h1>
-      <div>
-        {items}
-      </div>
+      <div>{items}</div>
     </Fragment>
   );
 }
