@@ -9,8 +9,7 @@ function Menu() {
 
       res
         .json()
-        .then((menus) => {
-          // let menuItems = [];
+        .then(async (menus) => {
           let i = 1;
           for (let menu of menus) {
             for (let item of menu.items) {
@@ -27,11 +26,18 @@ function Menu() {
               setItems([...menuItems]);
               console.log(items);
               i++;
+
+              // leave this in its just to show they each image is loaded in
+              // one by one
+              // await new Promise(resolve => setTimeout(() => {
+              //   console.log("work");
+              //   resolve();
+              // }, 1000));
             }
           }
-          // setItems(menuItems)
         })
         .catch((err) => console.log(err));
+
     }
 
     getMenu();
