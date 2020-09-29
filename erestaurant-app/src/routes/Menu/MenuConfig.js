@@ -18,6 +18,7 @@ function Menu(props) {
     desc: null,
     category: null,
   });
+  const [imgSent, setImgSent] = useState(null);
 
   function uploadImg(e) {
     setItemImg(e.target.files[0]);
@@ -25,6 +26,7 @@ function Menu(props) {
 
   async function submitNewItem(e) {
     e.preventDefault();
+    setImgSent(false);
 
     const formData = new FormData();
     formData.append("img", itemImg);
@@ -38,7 +40,14 @@ function Menu(props) {
       body: formData,
     });
 
-    console.log(sendImg);
+    if (sendImg.status === 200) {
+      setImgSent(true);
+    } else {
+      setImgSent(null);
+      alert(
+        "This new item was not saved successfully. Please try again or contact an adminstrator."
+      );
+    }
   }
 
   return (
@@ -132,6 +141,8 @@ function Menu(props) {
             >
               Submit
             </Button>
+
+            {imgSent == null ? null : imgSent ? <p>Sent</p> : <p>Sending</p>}
           </Grid>
         </Paper>
       </Container>
