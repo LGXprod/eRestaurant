@@ -60,7 +60,7 @@ const updateMenu = (name, price, desc, category, img) => {
       desc,
       img: Buffer.from(fs.readFileSync(`${path.resolve("./uploads")}/${img.filename}`)).toString("base64"),
     });
-    console.log("menu item", theMenuItem);
+    // console.log("menu item", theMenuItem);
 
     Menu.findById(category, function (err, menuForCategory) {
       if (err) reject(err);
@@ -70,14 +70,16 @@ const updateMenu = (name, price, desc, category, img) => {
           _id: category,
           items: [theMenuItem],
         });
-        console.log("menu", newCategoryMenu);
+        // console.log("menu", newCategoryMenu);
 
         newCategoryMenu.save(function (err) {
           if (err) reject(err);
           resolve();
         });
       } else {
+        console.log("m", menuForCategory.items.name)
         const items = menuForCategory.items.push(theMenuItem);
+        console.log("items", items);
         Menu.findByIdAndUpdate(category, { items: items }, (err) =>
           console.log(err)
         );
