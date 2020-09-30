@@ -53,7 +53,32 @@ const getByCustomerID = (customer_id) => {
   });
 };
 
+const getCustBySession = (session_id) => {
+  return new Promise((resolve, reject) => {
+    Session.findById(session_id, function (err, user) {
+      if (err) reject(err);
+
+      if (user == null) {
+        resolve(null);
+      } else {
+        if (user.customer_id != null) {
+          resolve({
+            isCustomer: true,
+            customer_id: user.customer_id,
+          });
+        } else {
+          resolve({
+            isCustomer: false,
+            staff_id: user.staff_id,
+          });
+        }
+      }
+    });
+  });
+};
+
 module.exports = {
   getByCustomerID: getByCustomerID,
   createSession: createSession,
+  getCustBySession,
 };
