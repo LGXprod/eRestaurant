@@ -65,6 +65,22 @@ const useStyles = (theme) => ({
       color: "#fff",
     },
   },
+  roleButton: {
+    backgroundColor: "white",
+    fontFamily: "Nunito-Regular",
+    textTransform: "none",
+    fontSize: "17px",
+    height: "47px",
+    borderRadius: 0,
+    boxShadow: "none",
+    border: "1px solid grey",
+    width: "93.5%",
+    color: "black",
+    "&:hover": {
+      backgroundColor: "white",
+      color: "black",
+    },
+  },
 });
 
 const STextField = withStyles({
