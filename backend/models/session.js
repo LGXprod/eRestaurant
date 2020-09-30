@@ -4,22 +4,26 @@ const crypto = require("crypto");
 const sessionSchema = mongoose.Schema({
   _id: String,
   customer_id: String,
+  staff_id: String,
   createdAt: { type: Date, expires: "60m", default: Date.now },
 });
 
 const Session = mongoose.model("Session", sessionSchema);
 
-const createSession = (customer_id) => {
+const createSession = (id, idProp) => {
   return new Promise((resolve, reject) => {
-    Session.deleteMany({ customer_id: customer_id }, function (err) {
+    const idObj = {};
+    idObj[idProp] = id;
+
+    Session.deleteMany(idObj, function (err) {
       if (err) reject(err);
 
       const session_id = crypto.randomBytes(16).toString("base64");
 
-      const newSession = new Session({
-        _id: session_id,
-        customer_id: customer_id,
-      });
+      const sessionObj = { _id: session_id };
+      sessionObj[idProp] = id;
+
+      const newSession = new Session(sessionObj);
 
       newSession.save(function (err) {
         if (err) reject(err);
@@ -49,7 +53,32 @@ const getByCustomerID = (customer_id) => {
   });
 };
 
+const getCustBySession = (session_id) => {
+  return new Promise((resolve, reject) => {
+    Session.findById(session_id, function (err, user) {
+      if (err) reject(err);
+
+      if (user == null) {
+        resolve(null);
+      } else {
+        if (user.customer_id != null) {
+          resolve({
+            isCustomer: true,
+            customer_id: user.customer_id,
+          });
+        } else {
+          resolve({
+            isCustomer: false,
+            staff_id: user.staff_id,
+          });
+        }
+      }
+    });
+  });
+};
+
 module.exports = {
   getByCustomerID: getByCustomerID,
   createSession: createSession,
+  getCustBySession,
 };

@@ -22,7 +22,7 @@ module.exports = (app) => {
         staff.createNewStaffMem(req.body).then(() => {
           res.sendStatus(200);
         }).catch(err => {
-          console.log(err._message);
+          console.log("error:", err._message);
           res.sendStatus(422);
         });
         break;
@@ -30,7 +30,7 @@ module.exports = (app) => {
         staff.createNewStaffMem(req.body).then(() => {
           res.sendStatus(200);
         }).catch(err => {
-          console.log(err._message);
+          console.log("error:", err._message);
           res.sendStatus(422);
         });
         break;
@@ -38,7 +38,7 @@ module.exports = (app) => {
         staff.createNewStaffMem(req.body).then(() => {
           res.sendStatus(200);
         }).catch(err => {
-          console.log(err._message);
+          console.log("error:", err._message);
           res.sendStatus(422);
         });
         break;

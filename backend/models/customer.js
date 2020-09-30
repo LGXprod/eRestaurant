@@ -13,7 +13,7 @@ const customerSchema = new mongoose.Schema({
 const Customer = mongoose.model("Customer", customerSchema);
 
 const createNewCustomer = (formData) => {
-  console.log("x", formData)
+  console.log("x", formData);
   return new Promise((resolve, reject) => {
     let hasInvalidProp = false;
 
@@ -78,7 +78,22 @@ const checkCustomerLogin = (username, password) => {
   });
 };
 
+const getCustomerByID = (username) => {
+  return new Promise((resolve, reject) => {
+    Customer.findById(username, function (err, customer) {
+      if (err) reject(err);
+
+      let theCustomer = { ...customer._doc, isCustomer: true };
+      delete theCustomer.password;
+      delete theCustomer.role;
+      delete theCustomer.__v;
+      resolve(theCustomer);
+    });
+  });
+};
+
 module.exports = {
-  createNewCustomer: createNewCustomer,
-  checkCustomerLogin: checkCustomerLogin,
+  createNewCustomer,
+  checkCustomerLogin,
+  getCustomerByID,
 };
