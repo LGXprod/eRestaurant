@@ -8,6 +8,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import Styles, { STextField } from "../Styles";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Menu(props) {
   const { classes } = props;
@@ -61,13 +62,8 @@ function Menu(props) {
             alignItems="center"
           >
             <Typography
-              className={classes.formRows}
+              className={`${classes.formRows} ${classes.text}`}
               variant="h4"
-              inputProps={{
-                classes: {
-                  input: classes.text,
-                },
-              }}
             >
               Add Menu Item
             </Typography>
@@ -125,7 +121,7 @@ function Menu(props) {
             <Button
               variant="contained"
               component="label"
-              className={classes.formRows}
+              className={`${classes.formRows} ${classes.uploadFileButton}`}
             >
               Upload File
               <input
@@ -137,12 +133,21 @@ function Menu(props) {
 
             <Button
               onClick={(e) => submitNewItem(e)}
-              className={classes.formRows}
+              className={`${classes.formRows} ${classes.addMenuButton}`}
             >
               Submit
             </Button>
 
-            {imgSent == null ? null : imgSent ? <p>Sent</p> : <p>Sending</p>}
+            {imgSent == null ? null : imgSent ?
+              <p className={classes.loading}>Sent</p> :
+               <p className={classes.loading}>
+                  Sending<CircularProgress
+                  size={25}
+                  thickness={4}
+                  style={{'color': '#54B82A',
+                  'marginLeft': '15px',}}>
+                  </CircularProgress>
+              </p>}
           </Grid>
         </Paper>
       </Container>
