@@ -21,7 +21,7 @@ const bankDetailsSchema = new mongoose.Schema({
 
 const managementSchema = new mongoose.Schema({
   salary: Number,
-  notes: String
+  notes: String,
 });
 
 const chefSchema = new mongoose.Schema({
@@ -74,21 +74,21 @@ const staffSchema = new mongoose.Schema({
     management: managementSchema,
     chef: chefSchema,
     customerService: customerServiceSchema,
-  }
+  },
 });
 
-const staff = mongoose.model("Staff", staffSchema, "staff");
-const bankDetails = mongoose.model("BankDetail", bankDetailsSchema);
-const management = mongoose.model("Management", managementSchema);
-const chef = mongoose.model("Chef", chefSchema);
-const customerService = mongoose.model(
+const Staff = mongoose.model("Staff", staffSchema, "staff");
+const BankDetails = mongoose.model("BankDetail", bankDetailsSchema);
+const Management = mongoose.model("Management", managementSchema);
+const Chef = mongoose.model("Chef", chefSchema);
+const CustomerService = mongoose.model(
   "CustomerService",
   customerServiceSchema
 );
 
 const createNewStaffMem = (formData) => {
   return new Promise((resolve, reject) => {
-    formData.bankDetails = new bankDetails({
+    formData.bankDetails = new BankDetails({
       accountNum: formData.accountNum,
       accountName: formData.accountName,
       BSB: formData.BSB,
@@ -105,28 +105,28 @@ const createNewStaffMem = (formData) => {
       case "management":
         formData.role = {
           roleName: "management",
-          management: new management({
+          management: new Management({
             salary: 0,
             notes: "",
           }),
-        }
+        };
         break;
       case "customer service":
         formData.role = {
           roleName: "customer service",
-          customerService: new customerService({
-            wage: 0
+          customerService: new CustomerService({
+            wage: 0,
           }),
-        }
+        };
         break;
       case "chef":
         formData.role = {
           roleName: "chef",
-          chef: new chef({
+          chef: new Chef({
             salary: 0,
-            chefType: ""
+            chefType: "",
           }),
-        }
+        };
         break;
     }
 
@@ -134,10 +134,10 @@ const createNewStaffMem = (formData) => {
     delete formData.username;
     console.log(formData);
 
-    const staffMem = new staff(formData);
+    const staffMem = new Staff(formData);
 
     staffMem.save(function (err) {
-      console.log(err)
+      console.log(err);
       if (err) reject(err);
 
       resolve();
@@ -147,7 +147,7 @@ const createNewStaffMem = (formData) => {
 
 const checkLogin = (username, password) => {
   return new Promise((resolve, reject) => {
-    staff.findById(username, function (err, staffMem) {
+    Staff.findById(username, function (err, staffMem) {
       if (err) reject(err);
 
       if (staffMem != null) {
@@ -163,7 +163,22 @@ const checkLogin = (username, password) => {
   });
 };
 
+const getStaffByID = (username) => {
+  return new Promise((resolve, reject) => {
+    Staff.findById(username, function (err, staffMem) {
+      if (err) reject(err);
+
+
+      let theStaffMem = { ...staffMem._doc, isCustomer: false };
+      delete theStaffMem.password;
+      delete theStaffMem.__v;
+      resolve(theStaffMem);
+    });
+  });
+};
+
 module.exports = {
   createNewStaffMem,
   checkLogin,
+  getStaffByID,
 };
