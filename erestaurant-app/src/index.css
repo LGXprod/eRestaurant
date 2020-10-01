@@ -1,0 +1,21 @@
+html,
+body {
+  margin-left: 120px;
+  margin-right: 120px;
+}
+
+@media only screen and (min-width: 1500px) {
+  html,
+  body {
+    margin-left: 200px;
+    margin-right: 200px;
+  }
+}
+
+@media only screen and (min-width: 1650px) {
+  html,
+  body {
+    margin-left: 300px;
+    margin-right: 300px;
+  }
+}

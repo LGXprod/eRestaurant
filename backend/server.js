@@ -9,6 +9,7 @@ restaurantApp.use(bodyParser.urlencoded({ extended: true }));
 const loginController = require("./controllers/loginController");
 const registrationController = require("./controllers/registrationController");
 const bookingController = require("./controllers/bookingController");
+const dashboardController = require("./controllers/dashboardController");
 
 restaurantApp.listen(5000, function () {
   console.log("Server running on port 5000");
@@ -26,4 +27,5 @@ const mongoURI = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.bf9ms.
     loginController(restaurantApp);
     registrationController(restaurantApp);
     bookingController(restaurantApp);
+    dashboardController(restaurantApp);
 })();
