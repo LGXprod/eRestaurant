@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core";
 import { Helmet } from "react-helmet";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegForm";
-import Styles from "./Styles";
+import Styles from "../Styles";
 import HomeContext from "./HomeContext";
 import queryString from "querystring";
 import Cookies from "universal-cookie";
