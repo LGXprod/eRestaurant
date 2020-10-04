@@ -68,6 +68,7 @@ const getBookings = (dateIN, typeOfCheck) => {
     const month = date.getMonth();
     const day = date.getDate();
     const year = date.getFullYear();
+    console.log("set hour", hour)
 
     function dateAloneCheck() {
       return new Promise((resolve, reject) => {
@@ -95,6 +96,8 @@ const getBookings = (dateIN, typeOfCheck) => {
       } else {
         let booking_times = [];
         for (let booking of bookings) {
+          console.log("h", booking.bookingDate.getHours(), "h2", hour)
+          console.log("m", booking.bookingDate.getMinutes(), "m2", minute)
           if (
             booking.bookingDate.getMinutes() == minute &&
             booking.bookingDate.getHours() == hour
@@ -102,6 +105,7 @@ const getBookings = (dateIN, typeOfCheck) => {
             booking_times.push(booking);
           }
         }
+        console.log("bookings", booking_times)
         resolve(booking_times);
       }
     });
@@ -109,7 +113,7 @@ const getBookings = (dateIN, typeOfCheck) => {
 };
 
 module.exports = {
-  createNewBooking: createNewBooking,
-  deleteBooking: deleteBooking,
-  getBooking: getBookings,
+  createNewBooking,
+  deleteBooking,
+  getBookings,
 };
