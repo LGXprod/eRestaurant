@@ -36,4 +36,16 @@ module.exports = (app) => {
       })
       .catch((err) => console.log(err));
   });
+
+  app.get("/Booking", (req, res) => {
+    // frontend must uri encode the booking_id when before using it as a url parameter
+    console.log(new Date (decodeURIComponent(req.query.date)));
+    console.log(req.query.check_time);
+    booking
+      .getBooking(new Date(decodeURIComponent(req.query.date)), req.query.check_time)
+      .then((bookings) => {
+        res.json(bookings);
+      })
+      .catch((err) => console.log(err));
+  });
 };
