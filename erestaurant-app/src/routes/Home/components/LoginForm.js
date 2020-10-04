@@ -8,7 +8,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
-import Styles, { STextField } from "../Styles";
+import Styles, { STextField } from "../../Styles";
 import HomeContext from "../HomeContext";
 
 const LoginForm = (props) => {
@@ -41,8 +41,12 @@ const LoginForm = (props) => {
             alignItems="center"
           >
             <Typography
-              className={`${classes.formRows} ${classes.text}`}
-              variant="h3"
+              variant="h4"
+              inputProps={{
+                classes: {
+                  input: `${classes.formRows} ${classes.text}`,
+                },
+              }}
             >
               Welcome Back
             </Typography>
@@ -52,7 +56,7 @@ const LoginForm = (props) => {
               id="outlined-basic"
               label="Username"
               variant="outlined"
-              inputProps={{ style: { fontFamily: "Nunito-Regular" } }}
+              inputProps={{ labelRoot: { classes: { fontFamily: "Nunito-Regular" } }}}
               onChange={(event) => setUsername(event.target.value)}
             />
 
