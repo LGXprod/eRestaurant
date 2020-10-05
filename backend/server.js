@@ -13,6 +13,7 @@ const registrationController = require("./controllers/registrationController");
 const bookingController = require("./controllers/bookingController");
 const dashboardController = require("./controllers/dashboardController");
 const menuController = require("./controllers/menuController");
+const restaurantController = require("./controllers/restaurantController");
 
 restaurantApp.listen(5000, function () {
   console.log("Server running on port 5000");
@@ -32,4 +33,5 @@ const mongoURI = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.bf9ms.
     bookingController(restaurantApp);
     dashboardController(restaurantApp);
     menuController(restaurantApp, upload);
+    restaurantController(restaurantApp, upload);
 })();
