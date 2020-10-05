@@ -9,25 +9,25 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
-function updateOrder(item_id, quantity, booking_id); {
+function createNewOrder(item_id, quantity, booking_id) {
     return new Promise((resolve, reject) => {
 
-        const item_id = crypto.randomBytes(16).toString("base64");
+        
 
-        const updateOrder = new Order({
+        const Order = new Order({
             item_id: item_id,
             quantity: Number,
-            booking_id: booking_id
+            
         });
 
-        newOrder.save(function (err) {
+        Order.save(function (err) {
             if (err)
                 reject(err);
 
             resolve(booking_id);
         });
 
-        order.updateOrder(booking_id.getBooking_id(booking_id));
+        (booking_id.getBooking_id(booking_id));
     });
 }
 
