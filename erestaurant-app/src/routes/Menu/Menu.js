@@ -1,6 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react";
+import {
+  Typography,
+  Paper,
+  withStyles
+} from "@material-ui/core";
+import Styles from "../Styles";
 
-function Menu() {
+function Menu(props) {
+  const { classes } = props;
   let [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -12,16 +19,22 @@ function Menu() {
         .then(async (menus) => {
           let i = 1;
           for (let menu of menus) {
-            setItems(items.push(<h2>{menu._id}</h2>));
+            setItems(items.push(<Typography style={{ color: "Black",
+            fontFamily: "Nunito-Bold",
+            fontSize: 20, }}>{menu._id}</Typography>));
             for (let item of menu.items) {
               let menuItems = items;
               menuItems.push(
                 <div key={i}>
+                <Typography style={{ color: "Black",
+                fontFamily: "Nunito",
+                fontSize: 14, }}
+                >{item.name}</Typography>
                   <img
                     alt="Menu item"
                     src={`data:image/png;base64, ${item.img}`}
+                    style={{ height: 200, width: 200, objectFit: 'cover' }}
                   />
-                  <h5>{item.name}</h5>
                 </div>
               );
               setItems([...menuItems]);
@@ -45,10 +58,9 @@ function Menu() {
 
   return (
     <Fragment>
-      <h1>Working</h1>
-      <div>{items}</div>
+      <div className = {classes.menuBox}>{items}</div>
     </Fragment>
   );
 }
 
-export default Menu;
+export default withStyles(Styles)(Menu);
