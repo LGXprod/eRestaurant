@@ -63,7 +63,7 @@ const Navbar = (props) => {
           <Button
             color="inherit"
             className={classes.bookButton}
-            onClick={() => props.history.push('/BookingPage')}
+            onClick={() => props.history.push('/Booking')}
           >
           Book a table
           </Button>
