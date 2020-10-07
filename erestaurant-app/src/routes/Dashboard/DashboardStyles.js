@@ -52,6 +52,11 @@ const useStyles = (theme) => ({
       maxWidth: "750px",
     },
   },
+  table_layout: {
+    position: "absolute",
+    width: "500px",
+    height: "300px"
+  }
 });
 
 export default useStyles;

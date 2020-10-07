@@ -4,10 +4,12 @@ import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
 import DashboardStyles from "../DashboardStyles";
 import { getRestaurants } from "../../../common/restaurant";
+import BookingTable from "./booking/BookTable";
 
 const BookingPage = (props) => {
   const { classes } = props;
   const [restaurantPanels, setRestaurantPanels] = useState();
+  const [restaurantSelected, setRestaurantSelected] = useState();
 
   useEffect(() => {
     function createPanels(restaurants, setRestaurantPanels) {
@@ -34,7 +36,13 @@ const BookingPage = (props) => {
                 <Typography className={classes.restText} variant="h3">
                   {restaurant.name}
                 </Typography>
-                <Button className={classes.restButton} variant="contained">
+                <Button
+                  className={classes.restButton}
+                  variant="contained"
+                  onClick={() => {
+                    setRestaurantSelected(restaurant.name);
+                  }}
+                >
                   Select
                 </Button>
               </Grid>
@@ -55,13 +63,19 @@ const BookingPage = (props) => {
         <title>Dineout | Book a table</title>
       </Helmet>
       <Navbar />
-      <Typography className={classes.text} variant="h3">
-        Select a Restaurant
-      </Typography>
+      {
+        restaurantSelected != null ? <BookingTable restaurantName={restaurantSelected} /> : (
+          <Fragment>
+            <Typography className={classes.text} variant="h3">
+              Select a Restaurant
+            </Typography>
 
-      <Grid container direction="row" justify="center" alignItems="center">
-        {restaurantPanels}
-      </Grid>
+            <Grid container direction="row" justify="center" alignItems="center">
+              {restaurantPanels}
+            </Grid>
+          </Fragment>
+        )
+      }
     </div>
   );
 };
