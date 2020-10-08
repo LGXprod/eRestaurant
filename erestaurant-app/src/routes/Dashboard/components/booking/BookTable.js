@@ -12,24 +12,28 @@ function BookTable(props) {
   const { classes } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // let tables = [];
+  let tables = [];
+  let i = 0;
 
-  // for (let i = 1; i <= 30; i++) {
-  //   tables.push(
-  //     <div
-  //       key={i}
-  //       style={{
-  //         backgroundColor: "red",
-  //         display: "inline-block",
-  //         visibility: `${i % 10 < 2 && i < 20 ? "hidden" : "visible"}`,
-  //         width: "20px",
-  //         height: "20px",
-  //         marginLeft: `${((i%10)*20)+20}px`,
-  //         marginTop: `${i > 9 ? (((i-i*10)/10)*20)+20 : 0}px`,
-  //       }}
-  //     ></div>
-  //   );
-  // }
+  for (let y = 0; y < 600; y+=40) {
+    for (let x = 0; x < 600; x+=40) {
+      tables.push(
+        <div
+          key={i}
+          style={{
+            width: "40px",
+            height: "40px",
+            left: `${x}px`,
+            top: `${y}px`,
+            backgroundColor: "red",
+            display: "inline-block",
+            position: "absolute",
+          }}
+        ></div>
+      );
+      i++;
+    }
+  }
 
   return (
     <Fragment>
@@ -70,7 +74,7 @@ function BookTable(props) {
         />
       </MuiPickersUtilsProvider>
 
-      {/* <div className={classes.table_layout}>{tables}</div> */}
+      <div className={classes.table_layout}>{tables}</div>
       
     </Fragment>
   );

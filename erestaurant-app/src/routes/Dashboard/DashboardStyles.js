@@ -54,8 +54,9 @@ const useStyles = (theme) => ({
   },
   table_layout: {
     position: "absolute",
-    width: "500px",
-    height: "300px"
+    width: "600px",
+    height: "600px",
+    verticalAlign: "top",
   }
 });
 
