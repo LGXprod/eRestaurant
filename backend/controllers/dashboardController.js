@@ -4,7 +4,7 @@ const staff = require("../models/staff");
 
 module.exports = (app) => {
   app.get("/User", (req, res) => {
-    session.getCustBySession(decodeURIComponent(req.query.session_id)).then((user) => {
+    session.getUserBySession(decodeURIComponent(req.query.session_id)).then((user) => {
       if (user == null) {
         res.sendStatus(404);
       } else if (user.isCustomer) {

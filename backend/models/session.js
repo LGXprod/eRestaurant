@@ -53,7 +53,7 @@ const getByCustomerID = (customer_id) => {
   });
 };
 
-const getCustBySession = (session_id) => {
+const getUserBySession = (session_id) => {
   return new Promise((resolve, reject) => {
     Session.findById(session_id, function (err, user) {
       if (err) reject(err);
@@ -80,5 +80,5 @@ const getCustBySession = (session_id) => {
 module.exports = {
   getByCustomerID: getByCustomerID,
   createSession: createSession,
-  getCustBySession,
+  getUserBySession,
 };
