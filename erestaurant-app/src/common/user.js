@@ -10,19 +10,25 @@ function getUserInfo(userState) {
       }
     );
 
-    res
-      .json()
-      .then((userInfo) => {
-        console.log("t", userInfo)
-        userState(userInfo);
-      })
-      .catch((err) =>
-        reject({
-          success: false,
-          err,
+    if (res.status !== 404) {
+      res
+        .json()
+        .then((userInfo) => {
+          console.log("t", userInfo);
+          if (userState != null) userState(userInfo); 
+          resolve(true);
         })
-      );
+        .catch((err) =>
+          reject({
+            success: false,
+            err,
+          })
+        );
+    } else {
+      cookies.remove("Session id");
+      resolve(false);
+    }
   });
 }
 
-export {getUserInfo};
+export { getUserInfo };

@@ -81,7 +81,7 @@ const LoginForm = (props) => {
             <Button
               className={`${classes.formRows} ${classes.loginButton}`}
               variant="contained"
-              onClick={() => setIsUser(checkLogin(username, password))}
+              onClick={() => checkLogin(username, password, setIsUser)}
             >
               Login
             </Button>

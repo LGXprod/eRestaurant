@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   withStyles,
 } from "@material-ui/core";
 import Navbar from './Navbar';
 import DashboardStyles from "../DashboardStyles";
+import { getUserInfo } from "../../../common/user";
+import { Redirect } from "react-router-dom";
 
 const HomePage = (props) =>{
 
   const { classes } = props;
 
+  const [logout, setLogout] = useState(false);
+
+  useEffect(() => {
+    getUserInfo().then((sessionExists) => {
+      if (!sessionExists) setLogout(true);
+    });
+  }, []);
+
   return (
     <div className={classes.root}>
+    { logout ? <Redirect to="/"/> : null }
     <Navbar />
     <Typography className={classes.mainTitle} style={{ marginTop: -60 }}>
       Dining made simple
