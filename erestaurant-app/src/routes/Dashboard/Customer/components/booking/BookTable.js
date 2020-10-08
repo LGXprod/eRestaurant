@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import { Grid, Paper, withStyles } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -11,25 +11,12 @@ import Styles from "../../DashboardStyles";
 function BookTable(props) {
   const { classes } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const canvasRef = useRef(null);
 
-  // let tables = [];
+  useEffect(() => {
 
-  // for (let i = 1; i <= 30; i++) {
-  //   tables.push(
-  //     <div
-  //       key={i}
-  //       style={{
-  //         backgroundColor: "red",
-  //         display: "inline-block",
-  //         visibility: `${i % 10 < 2 && i < 20 ? "hidden" : "visible"}`,
-  //         width: "20px",
-  //         height: "20px",
-  //         marginLeft: `${((i%10)*20)+20}px`,
-  //         marginTop: `${i > 9 ? (((i-i*10)/10)*20)+20 : 0}px`,
-  //       }}
-  //     ></div>
-  //   );
-  // }
+    
+  }, []);
 
   return (
     <Fragment>
@@ -69,9 +56,6 @@ function BookTable(props) {
           }}
         />
       </MuiPickersUtilsProvider>
-
-      {/* <div className={classes.table_layout}>{tables}</div> */}
-      
     </Fragment>
   );
 }
