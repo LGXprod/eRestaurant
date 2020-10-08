@@ -9,7 +9,7 @@ import {
 import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
 import Styles, { STextField } from "../DashboardStyles";
-import { getUserInfo } from "../../../common/user";
+import { getUserInfo } from "../../../../common/user";
 
 const UserAccount = (props) => {
   const { classes } = props;

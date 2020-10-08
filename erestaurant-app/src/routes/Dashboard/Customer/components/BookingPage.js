@@ -3,7 +3,7 @@ import { Paper, Typography, Grid, Button, withStyles } from "@material-ui/core";
 import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
 import DashboardStyles from "../DashboardStyles";
-import { getRestaurants } from "../../../common/restaurant";
+import { getRestaurants } from "../../../../common/restaurant";
 import BookingTable from "./booking/BookTable";
 
 const BookingPage = (props) => {

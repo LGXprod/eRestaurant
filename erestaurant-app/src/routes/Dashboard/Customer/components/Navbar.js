@@ -51,7 +51,7 @@ const Navbar = (props) => {
       <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
           <Typography className={classes.title}>
-            <img src={require("../../../Assets/dineout.png")} alt="logo" className={classes.logo} />
+            <img src={require("../../../../Assets/dineout.png")} alt="logo" className={classes.logo} />
           </Typography>
           <Button
             color="inherit"
