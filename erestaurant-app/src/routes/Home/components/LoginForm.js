@@ -12,11 +12,7 @@ import Styles, { STextField } from "../../Styles";
 import HomeContext from "../HomeContext";
 
 const LoginForm = (props) => {
-<<<<<<< HEAD
-  const switchMethod = useContext(HomeContext);
-=======
   const { switchMethod, checkLogin } = useContext(HomeContext);
->>>>>>> F/feature/dashboard
   const { classes } = props;
 
   const [username, setUsername] = useState("");
@@ -44,11 +40,6 @@ const LoginForm = (props) => {
             justify="center"
             alignItems="center"
           >
-<<<<<<< HEAD
-            <Typography component={'div'}
-              className={`${classes.formRows} ${classes.text}`}
-              variant="h3"
-=======
             <Typography
               variant="h4"
               inputProps={{
@@ -56,7 +47,6 @@ const LoginForm = (props) => {
                   input: `${classes.formRows} ${classes.text}`,
                 },
               }}
->>>>>>> F/feature/dashboard
             >
               Welcome Back
             </Typography>
@@ -88,7 +78,7 @@ const LoginForm = (props) => {
               </Typography>
             )}
 
-            <Button data-testid = "buttonTest" 
+            <Button data-testid = "buttonTest"
               className={`${classes.formRows} ${classes.loginButton}`}
               variant="contained"
               onClick={() => setIsUser(checkLogin(username, password))}
