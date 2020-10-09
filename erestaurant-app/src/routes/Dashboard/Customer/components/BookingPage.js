@@ -1,10 +1,12 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Paper, Typography, Grid, Button, withStyles } from "@material-ui/core";
-import Navbar from "./Navbar";
-import { Helmet } from "react-helmet";
 import DashboardStyles from "../DashboardStyles";
 import { getRestaurants } from "../../../../common/restaurant";
 import BookingTable from "./booking/BookTable";
+import { getUserInfo } from "../../../../common/user";
+import { Redirect } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import Navbar from "./Navbar";
 
 const BookingPage = (props) => {
   const { classes } = props;
@@ -57,11 +59,20 @@ const BookingPage = (props) => {
     getRestaurants(setRestaurantPanels, createPanels);
   }, []);
 
+  const [logout, setLogout] = useState(false);
+
+  useEffect(() => {
+    getUserInfo().then((sessionExists) => {
+      if (!sessionExists) setLogout(true);
+    });
+  }, []);
+
   return (
     <div className={classes.root}>
-      <Helmet>
-        <title>Dineout | Book a table</title>
-      </Helmet>
+    { logout ? <Redirect to="/"/> : null }
+    <Helmet>
+      <title>Dineout | Book a table</title>
+    </Helmet>
       <Navbar />
       {
         restaurantSelected != null ? <BookingTable restaurantName={restaurantSelected} /> : (

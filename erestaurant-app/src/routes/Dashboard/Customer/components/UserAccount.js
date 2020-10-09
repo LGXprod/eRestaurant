@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Redirect} from "react-router-dom";
 import {
   Paper,
   Typography,
@@ -20,15 +21,19 @@ const UserAccount = (props) => {
     mobileNum: "",
     email: "",
   });
+  const [logout, setLogout] = useState(false);
 
   useEffect(() => {
-    getUserInfo(setUserInfo);
+    getUserInfo(setUserInfo).then((sessionExists) => {
+      if (!sessionExists) setLogout(true);
+    });
   }, []);
 
   console.log(userInfo)
 
   return (
     <div className={classes.root}>
+      { logout ? <Redirect to="/"/> : null }
       <Helmet>
         <title>Dineout | Account</title>
       </Helmet>

@@ -5,3 +5,4 @@ export { default as UserAccount } from "./Dashboard/Customer/components/UserAcco
 export { default as Menu } from "./Menu/Menu";
 export { default as MenuConfig } from "./Menu/MenuConfig";
 export { default as HomePage } from "./Dashboard/Customer/components/HomePage";
+export { default as RestaurantReg } from "./Dashboard/Staff/RestaurantReg";

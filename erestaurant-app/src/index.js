@@ -8,7 +8,8 @@ import {
   UserAccount,
   MenuConfig,
   Menu,
-  HomePage
+  HomePage,
+  RestaurantReg,
 } from "./routes/Routes";
 import "./index.css";
 
@@ -22,6 +23,7 @@ ReactDOM.render(
       <Route exact path="/Menu" component={Menu} />
       <Route path="/Menu/Configuration" component={MenuConfig} />
       <Route path="/Dashboard" component={HomePage} />
+      <Route path="/Restaurant/Configuration" component={RestaurantReg} />
     </Switch>
   </Router>,
   document.getElementById("root")
