@@ -8,7 +8,6 @@ import {
   withStyles,
 } from "@material-ui/core";
 import Styles, { STextField } from "../../Styles";
-import SectionTable from "./SectionTable";
 
 function RestaurantReg(props) {
   const { classes } = props;
@@ -22,16 +21,51 @@ function RestaurantReg(props) {
     width: 0,
     height: 0,
   });
-  const [sections, setSections] = useState();
-  const [divSections, setDivSections] = useState();
-  const [selectedSections, setSelectedSections] = useState({});
+  const [sections, setSections] = useState([]);
+  const [imgClicked, setImgClicked] = useState(false);
+  const [ords, setOrds] = useState({
+    x: 0,
+    y: 0,
+  });
+  const [tableNo, setTableNo] = useState("");
+  const [removeTables, setRemoveTables] = useState([]); // by className
+  const [remove, setRemove] = useState(false);
 
-  // useEffect(() => {
-  //   console.log("pls", selectedSections);
-  // }, [selectedSections]);
+  function deleteKeyUp(e) {
+    e.preventDefault();
+    if (e.key === "Backspace") setRemove(true);
+  } //&& removeTables.length > 0
 
   useEffect(() => {
-    console.log("img", formImg);
+    window.addEventListener("keyup", deleteKeyUp);
+
+    return () => {
+      window.removeEventListener("keyup", deleteKeyUp);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("v", removeTables);
+  }, [removeTables]);
+
+  useEffect(() => {
+    console.log(remove);
+    if (remove) {
+      let updatedSections = [];
+
+      for (let section of sections) {
+        for (let table of removeTables) {
+          if (parseInt(section.props.className) !== table)
+            updatedSections.push(section.className);
+        }
+      }
+
+      setSections(updatedSections);
+      setRemove(false);
+    }
+  }, [remove]);
+
+  useEffect(() => {
     let img = new Image();
     img.src = formImg;
 
@@ -43,55 +77,28 @@ function RestaurantReg(props) {
     };
   }, [formImg]);
 
-  useEffect(() => {
-    let sections = [];
-    let i = 0;
+  async function uploadResData() {
+    const formData = new FormData();
+    formData.append("name", formText.name);
+    formData.append("desc", formText.desc);
+    formData.append("category", formText.category);
+    formData.append("img_layout", formImg);
+    formData.append("sections", JSON.stringify(sections));
+    let tableNums = sections.forEach(function (section) {
+      return parseInt(section.props.className);
+    });
+    formData.append("tableNos", JSON.stringify(tableNums));
 
-    for (let y = 0; y < imgRes.height; y += 15) {
-      for (let x = 0; x < imgRes.width; x += 15) {
-        sections.push({ key: i, x, y });
-        i++;
-      }
-    }
+    const res = await fetch("/Restaurant", {
+      method: "GET",
+      body: formData,
+    });
 
-    setSections(sections);
-  }, [imgRes]);
-
-  function onSectionClick(
-    i,
-    selectedSections,
-    setSelectedSections,
-    sectionsRef
-  ) {
-    console.log(i);
-    let updatedSections = selectedSections;
-    updatedSections[i.toString()] = true;
-    setSelectedSections();
-    sectionsRef.current.style.backgroundColor = "rgba(193, 66, 66, 0.5)";
-    console.log(sectionsRef);
+    if (res.status === 200) alert("Restaurant Successfully");
   }
 
-  useEffect(() => {
-    if (sections != null) {
-      let divSections = sections.map(function (item) {
-        return (
-          <SectionTable
-            item={item}
-            onSectionClick={onSectionClick}
-            selectedSections={selectedSections}
-            setSelectedSections={setSelectedSections}
-          />
-        );
-      });
-
-      setDivSections(divSections);
-    }
-  }, [sections]);
-
-  async function uploadResData() {}
-
   return (
-    <Fragment>
+    <div>
       <Container maxWidth="xs">
         <Paper elevation={2} square className={classes.middleground}>
           <Grid
@@ -161,7 +168,6 @@ function RestaurantReg(props) {
                 style={{ display: "none" }}
                 onChange={(e) => {
                   console.log(e.target.files[0]);
-                  // setFormImg(URL.createObjectURL(e.target.files[0]));
                   setFormImg(URL.createObjectURL(e.target.files[0]));
                 }}
               />
@@ -173,6 +179,31 @@ function RestaurantReg(props) {
           </Grid>
         </Paper>
       </Container>
+
+      <Container>
+        <Container maxWidth="xs" style={{ marginTop: "10px" }}>
+          <Paper elevation={2} square className={classes.middleground}>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="center"
+            >
+              <STextField
+                className={classes.formRows}
+                id="outlined-basic"
+                label="Table Number"
+                variant="outlined"
+                onChange={(e) => setTableNo(e.target.value)}
+              />
+            </Grid>
+          </Paper>
+        </Container>
+      </Container>
+
+      <div>
+        <h1>Table</h1>
+      </div>
 
       <div style={{ position: "absolute" }}>
         <img
@@ -189,11 +220,65 @@ function RestaurantReg(props) {
             left: "0",
             top: "0",
           }}
+          onMouseDown={(e) => {
+            if (tableNo !== "") {
+              setOrds({
+                x: e.clientX,
+                y: e.clientY,
+              });
+              let updatedSections = [...sections];
+              updatedSections.push(
+                <div
+                  style={{
+                    left: `${e.clientX}px`,
+                    top: `${e.clientY}px`,
+                    display: "inline-block",
+                    position: "fixed",
+                  }}
+                ></div>
+              );
+              setSections(updatedSections);
+              setImgClicked(true);
+            } else {
+              alert(
+                "Cannot make a table selection without entering a table number."
+              );
+            }
+          }}
+          onMouseMove={(e) => {
+            if (imgClicked) {
+              let updatedSections = [...sections];
+
+              updatedSections[updatedSections.length - 1] = (
+                <div
+                  className={tableNo}
+                  style={{
+                    left: `${e.clientX >= ords.x ? ords.x : e.clientX}px`,
+                    top: `${ords.y}px`,
+                    width: `${Math.abs(e.clientX - ords.x)}px`,
+                    height: `${e.clientY - ords.y}px`,
+                    backgroundColor: "rgba(63, 191, 127, 0.48)",
+                    border: "2.5px solid rgba(193, 66, 66, 0.5)",
+                    display: "inline-block",
+                    position: "fixed",
+                    zIndex: `${updatedSections.length + 2}`,
+                  }}
+                  onClick={() => {
+                    setRemoveTables([...removeTables, tableNo]);
+                  }}
+                >
+                  <p style={{ textAlign: "center" }}>{tableNo}</p>
+                </div>
+              );
+              setSections(updatedSections);
+            }
+          }}
+          onClick={() => setImgClicked(false)}
         >
-          {divSections}
+          {sections}
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 
