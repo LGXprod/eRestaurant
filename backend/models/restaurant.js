@@ -7,6 +7,7 @@ const restaurantSchema = new mongoose.Schema({
     required: [true, "Missing image"],
     type: String,
   },
+  layout: String,
   name: {
     required: [true, "Missing name"],
     type: String,
@@ -15,11 +16,30 @@ const restaurantSchema = new mongoose.Schema({
     required: [true, "Missing staff array"],
     type: [String],
   },
+  tableNums: {
+    required: [true, "Missing tableNums"],
+    type: [Number],
+  },
+  sections: {
+    required: [true, "Missing sections"],
+    type: String,
+  },
+  category: {
+    required: [true, "Missing category"],
+    type: String,
+  },
 });
 
 const Restaurant = new mongoose.model("Restaurant", restaurantSchema);
 
-const createRestaurant = (name, img, currentStaff) => {
+const createRestaurant = (
+  name,
+  img,
+  currentStaff,
+  tableNums,
+  sections,
+  category
+) => {
   return new Promise((resolve, reject) => {
     const restaurant = new Restaurant({
       name,
@@ -27,12 +47,32 @@ const createRestaurant = (name, img, currentStaff) => {
         fs.readFileSync(`${path.resolve("./uploads")}/${img.filename}`)
       ).toString("base64"),
       staff_ids: currentStaff,
+      tableNums,
+      sections,
+      category,
     });
 
     restaurant.save(function (err) {
       if (err) reject(err);
       resolve();
     });
+  });
+};
+
+const addLayout = (name, layout) => {
+  return new Promise((resolve, reject) => {
+    Restaurant.findOneAndUpdate(
+      { name },
+      {
+        layout: Buffer.from(
+          fs.readFileSync(`${path.resolve("./uploads")}/${layout.filename}`)
+        ).toString("base64"),
+      },
+      function (err) {
+        if (err) reject(err);
+        resolve();
+      }
+    );
   });
 };
 
@@ -49,4 +89,5 @@ const getRestaurantByName = (name) => {
 module.exports = {
   createRestaurant,
   getRestaurantByName,
+  addLayout,
 };

@@ -6,9 +6,22 @@ module.exports = (app, upload) => {
       .createRestaurant(
         req.body.name,
         req.file,
-        JSON.parse(req.body.currentStaff)
+        JSON.parse(req.body.currentStaff),
+        JSON.parse(req.body.tableNums),
+        req.body.sections,
+        req.body.category
       )
       .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => console.log(err));
+  });
+
+  app.post("/Restaurant/Layout", upload.single("img"), (req, res) => {
+    restaurant
+      .addLayout(req.body.name, req.file)
+      .then(() => {
+        console.log("work");
         res.sendStatus(200);
       })
       .catch((err) => console.log(err));

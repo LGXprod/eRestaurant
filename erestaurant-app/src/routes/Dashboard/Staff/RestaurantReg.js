@@ -30,6 +30,7 @@ function RestaurantReg(props) {
   const [tableNo, setTableNo] = useState("");
   const [removeTables, setRemoveTables] = useState([]); // by className
   const [remove, setRemove] = useState(false);
+  const [files, setFiles] = useState([]);
 
   function deleteKeyUp(e) {
     e.preventDefault();
@@ -43,10 +44,6 @@ function RestaurantReg(props) {
       window.removeEventListener("keyup", deleteKeyUp);
     };
   }, []);
-
-  useEffect(() => {
-    console.log("v", removeTables);
-  }, [removeTables]);
 
   useEffect(() => {
     console.log(remove);
@@ -78,23 +75,38 @@ function RestaurantReg(props) {
   }, [formImg]);
 
   async function uploadResData() {
+    console.log("f", files)
     const formData = new FormData();
     formData.append("name", formText.name);
     formData.append("desc", formText.desc);
     formData.append("category", formText.category);
-    formData.append("img_layout", formImg);
+    formData.append("currentStaff", JSON.stringify([]));
+    formData.append("img", files[0]);
     formData.append("sections", JSON.stringify(sections));
-    let tableNums = sections.forEach(function (section) {
-      return parseInt(section.props.className);
-    });
-    formData.append("tableNos", JSON.stringify(tableNums));
+    let tableNums = [];
+    for (let section of sections) {
+      tableNums.push(section.props.className);
+    }
+    formData.append("tableNums", JSON.stringify(tableNums));
 
     const res = await fetch("/Restaurant", {
-      method: "GET",
+      method: "POST",
       body: formData,
     });
 
-    if (res.status === 200) alert("Restaurant Successfully");
+    if (res.status === 200) {
+      const formData = new FormData();
+      formData.append("name", formText.name);
+      formData.append("img", files[1]);
+      const res = await fetch("/Restaurant/Layout", {
+        method: "POST",
+        body: formData
+      })
+
+      if (res.status === 200) {
+        alert("Restaurant Successfully");
+      }
+    }
   }
 
   return (
@@ -162,13 +174,31 @@ function RestaurantReg(props) {
               component="label"
               className={classes.formRows}
             >
-              Upload File
+              Upload Thumbnail
               <input
                 type="file"
                 style={{ display: "none" }}
                 onChange={(e) => {
                   console.log(e.target.files[0]);
+                  setFiles([...files, e.target.files[0]]);
+                }}
+              />
+            </Button>
+
+            <Button
+              variant="contained"
+              component="label"
+              className={classes.formRows}
+            >
+              Upload Layout
+              <input
+                multiple
+                type="file"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  console.log(e.target.files[0]);
                   setFormImg(URL.createObjectURL(e.target.files[0]));
+                  setFiles([...files, e.target.files[0]]);
                 }}
               />
             </Button>
