@@ -235,7 +235,7 @@ function RestaurantReg(props) {
         <h1>Table</h1>
       </div>
 
-      <div style={{ position: "absolute" }}>
+      <div style={{ position: "relative" }}>
         <img
           style={{ zIndex: "-1", left: "0", top: "0" }}
           src={formImg}
@@ -243,7 +243,7 @@ function RestaurantReg(props) {
         />
         <div
           style={{
-            position: "absolute",
+            position: "relative",
             zIndex: "1",
             width: imgRes.width,
             height: imgRes.height,
@@ -252,6 +252,10 @@ function RestaurantReg(props) {
           }}
           onMouseDown={(e) => {
             if (tableNo !== "") {
+              console.log("mousedown", {
+                x: e.clientX,
+                y: e.clientY,
+              })
               setOrds({
                 x: e.clientX,
                 y: e.clientY,
@@ -278,6 +282,7 @@ function RestaurantReg(props) {
           onMouseMove={(e) => {
             if (imgClicked) {
               let updatedSections = [...sections];
+              console.log("y:", ords.y)
 
               updatedSections[updatedSections.length - 1] = (
                 <div

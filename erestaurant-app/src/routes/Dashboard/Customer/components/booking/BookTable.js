@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Grid, Paper, withStyles } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -11,33 +11,58 @@ import Styles from "../../DashboardStyles";
 function BookTable(props) {
   const { classes } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const canvasRef = useRef(null);
+  const [layout, setLayout] = useState();
+  const [sections, setSections] = useState();
+  const [tablesSelected, setTablesSelected] = useState([]);
 
-  let tables = [];
-  let i = 0;
+  useEffect(() => {
+    async function getLayout() {
+      const res = await fetch(`/Restaurant?name=${props.restaurantName}`, {
+        method: "GET",
+      });
 
-  for (let y = 0; y < 600; y+=40) {
-    for (let x = 0; x < 600; x+=40) {
-      tables.push(
-        <div
-          key={i}
-          style={{
-            width: "40px",
-            height: "40px",
-            left: `${x}px`,
-            top: `${y}px`,
-            backgroundColor: "red",
-            display: "inline-block",
-            position: "absolute",
-          }}
-        ></div>
-      );
-      i++;
+      res.json().then((restaurant) => {
+        let sections = [];
+        const img = new Image();
+        img.src = `data:image/png;base64, ${restaurant[0].layout}`;
+
+        console.log(JSON.parse(restaurant[0].sections))
+
+        img.onload = () => {
+
+          console.log(img.naturalHeight)
+          for (let section of JSON.parse(restaurant[0].sections)) {
+            const style = section.props.style;
+            if (style !== null) {
+              sections.push({
+                tableNo: section.props.className,
+                x1: parseInt(style.left.substring(0, style.left.length - 2)),
+                x2:
+                  parseInt(style.left.substring(0, style.left.length - 2)) +
+                  parseInt(style.width.substring(0, style.width.length - 2)),
+                y1:
+                  img.naturalHeight -
+                  parseInt(style.top.substring(0, style.top.length - 2)),
+                y2:
+                  img.naturalHeight -
+                  parseInt(style.top.substring(0, style.top.length - 2)) +
+                  parseInt(style.height.substring(0, style.height.length - 2)),
+              });
+            }
+          }
+          console.log("new", sections);
+          setSections(sections);
+
+          setLayout(`data:image/png;base64, ${restaurant[0].layout}`);
+        };
+      });
     }
-  }
+
+    getLayout();
+  }, []);
 
   return (
-    <Fragment>
+    <div>
       <h1>{props.restaurantName}</h1>
 
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -75,9 +100,26 @@ function BookTable(props) {
         />
       </MuiPickersUtilsProvider>
 
-      <div className={classes.table_layout}>{tables}</div>
-      
-    </Fragment>
+      {layout !== null ? (
+        <img
+          alt="Layout"
+          src={layout}
+          onClick={(e) => {
+            for (let section of sections) {
+              console.log("s", sections);
+              console.log([e.clientX, e.clientY]);
+              if (e.clientX >= section.x1 && e.clientX <= section.x2) {
+                console.log("x!");
+                if (e.clientY <= section.y1 && e.clientY >= section.y2) {
+                  console.log("t", section.tableNo);
+                  setTablesSelected([...tablesSelected, section.tableNo]);
+                }
+              }
+            }
+          }}
+        />
+      ) : null}
+    </div>
   );
 }
 

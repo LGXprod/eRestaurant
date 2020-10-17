@@ -18,7 +18,6 @@ const BookingPage = (props) => {
       let restaurantPanels = [];
 
       restaurants.forEach(function (restaurant, i) {
-        console.log("i", i, "res", restaurant);
         restaurantPanels.push(
           <Grid item className={classes.control}>
             <Paper elevation={2} square className={classes.card}>
