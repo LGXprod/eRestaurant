@@ -60,7 +60,56 @@ const deleteBooking = (booking_id) => {
   });
 };
 
+const getBookings = (dateIN, typeOfCheck) => {
+  return new Promise((resolve, reject) => {
+    const date = new Date(dateIN);
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    function dateAloneCheck() {
+      return new Promise((resolve, reject) => {
+        Booking.find({}, function (err, bookings) {
+          if (err) reject(err);
+          let bookings_dates = [];
+          for (let booking of bookings) {
+            if (
+              booking.bookingDate.getMonth() == month &&
+              booking.bookingDate.getFullYear() == year &&
+              booking.bookingDate.getDate() == day
+            ) {
+              bookings_dates.push(booking);
+            }
+          }
+          resolve(bookings_dates);
+        });
+      });
+    }
+
+    //date alone check
+    dateAloneCheck().then((bookings) => {
+      if (typeOfCheck == 0) {
+        resolve(bookings);
+      } else {
+        let booking_times = [];
+        for (let booking of bookings) {
+          if (
+            booking.bookingDate.getMinutes() == minute &&
+            booking.bookingDate.getHours() == hour
+          ) {
+            booking_times.push(booking);
+          }
+        }
+        resolve(booking_times);
+      }
+    });
+  });
+};
+
 module.exports = {
   createNewBooking: createNewBooking,
   deleteBooking: deleteBooking,
+  getBooking: getBookings,
 };
