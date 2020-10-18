@@ -131,7 +131,8 @@ Returns JSON with an auth and session_id property.
     }
   }
   ```
-  **Make Booking**
+ 
+ **Make Booking**
 ----
   Creates a booking document in the database.
 
