@@ -131,3 +131,86 @@ Returns JSON with an auth and session_id property.
     }
   }
   ```
+  **Make Booking**
+----
+  Creates a booking document in the database.
+
+* **URL:** /Booking
+
+* **Method:** `POST`
+
+* **Data Params:**
+
+  * **Headers:**
+    * Content-type: application/x-www-form-urlencoded
+  * **Body:**
+    * customer_id
+    * table_id
+    * date
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+ 
+* **Error Response:**
+
+  * **Code:** 422 UNPROCESSABLE ENTRY <br />
+    **Content:** `{ message : "Invalid or missing props" }`
+
+* **Sample Call:**
+
+ **Delete Booking**
+----
+  Removes a booking document from the database.
+
+* **URL:** /Booking
+
+* **Method:** `DELETE`
+
+* **URL Params:**
+  
+  * **booking_id**
+
+* **Success Response:**
+  
+  **Successful Update:**
+
+  * **Code:** 200 <br />
+ 
+  **Unsuccessful Update:**
+ 
+  * **Code:** 401 <br />
+ 
+* **Error Response:**
+
+  * **Code:** 422 UNPROCESSABLE ENTRY <br />
+    **Content:** `{ message : "Invalid or missing props" }`
+
+* **Sample Call:**
+
+
+**Find Booking**
+----
+  Gets bookings at a given time or date.
+
+* **URL:** /Booking
+
+* **Method:** `GET`
+
+* **URL Params:**
+  
+  * **date**
+  
+  * **check_time**
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+  **Content:** `bookings array'
+ 
+* **Error Response:**
+
+  * **Code:** 422 UNPROCESSABLE ENTRY <br />
+    **Content:** `{ message : "Invalid or missing props" }`
+
+* **Sample Call:**
