@@ -37,7 +37,7 @@ function BookTable(props) {
 
   return (
     <Fragment>
-      <h1>{props.restaurantName}</h1>
+      <h1 className={classes.text}>{props.restaurantName}</h1>
 
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
@@ -75,7 +75,7 @@ function BookTable(props) {
       </MuiPickersUtilsProvider>
 
       <div className={classes.table_layout}>{tables}</div>
-      
+
     </Fragment>
   );
 }

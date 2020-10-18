@@ -33,11 +33,6 @@ const useStyles = (theme) => ({
     width: "164px",
     textAlign: "center",
   },
-  accountformRows: {
-    margin: theme.spacing(3),
-    width: '500px',
-    textAlign: "center",
-  },
   logo: {
     flexGrow: 1,
     marginLeft: 25,
@@ -69,19 +64,6 @@ const useStyles = (theme) => ({
       backgroundColor: "#54B82A",
       color: "#fff",
     },
-  },
-  accountText: {
-    fontFamily: 'Nunito-Bold',
-    fontSize: '20px',
-    marginTop: -60,
-    textAlign: 'center',
-    marginRight: 320
-  },
-  accountCard: {
-    marginTop: 45,
-    width: theme.spacing(55),
-    height: theme.spacing(30),
-    margin: '0 auto',
   },
   label: {
     fontFamily: 'Nunito',

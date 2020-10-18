@@ -7,6 +7,7 @@ const useStyles = (theme) => ({
   },
   card: {
     marginTop: 45,
+    marginRight: 45,
     width: theme.spacing(40),
     height: theme.spacing(45),
   },
@@ -57,7 +58,25 @@ const useStyles = (theme) => ({
     width: "600px",
     height: "600px",
     verticalAlign: "top",
-  }
+  },
+  accountText: {
+    fontFamily: 'Nunito-Bold',
+    fontSize: '20px',
+    marginTop: -60,
+    textAlign: 'center',
+    marginRight: 320
+  },
+  accountCard: {
+    marginTop: 45,
+    width: theme.spacing(55),
+    height: theme.spacing(25),
+    margin: '0 auto',
+  },
+  accountformRows: {
+    margin: theme.spacing(3),
+    width: '500px',
+    textAlign: "center",
+  },
 });
 
 export default useStyles;
