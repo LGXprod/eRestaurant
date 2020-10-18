@@ -9,7 +9,7 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import Styles, { STextField } from "../Styles";
+import Styles, { STextField } from "../../Styles";
 import InputMask from "react-input-mask";
 import HomeContext from "../HomeContext";
 import queryString from "querystring";
