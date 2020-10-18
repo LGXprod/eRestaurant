@@ -33,8 +33,12 @@ module.exports = (app) => {
       .deleteBooking(
         new mongoose.Types.ObjectId(decodeURIComponent(req.query.booking_id))
       )
-      .then(() => {
-        res.sendStatus(200);
+      .then((hasUpdated) => {
+        if (hasUpdated) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
       })
       .catch((err) => console.log(err));
   });
@@ -56,11 +60,37 @@ module.exports = (app) => {
 
   app.post("/Booking/MenuItems", (req, res) => {
     booking
-      .updateOrder(
-        req.body.menuItemIDs,
+      .updateOrder(JSON.parse(req.body.menuItemIDs))
+      .then(() => {})
+      .catch((err) => console.log(err));
+  });
+
+  app.post("/ChangeBooking/Time", (req, res) => {
+    console.log("x:", req.body.date)
+    booking
+      .updateBookingTime(req.body.booking_id, new Date(req.body.date))
+      .then((hasUpdated) => {
+        if (hasUpdated) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
+
+  app.post("/ChangeBooking/Date", (req, res) => {
+    booking
+      .updateBookingDate(
+        req.body.booking_id,
+        decodeURIComponent(req.body.date)
       )
-      .then(() => {
-        res.sendStatus(200);
+      .then((hasUpdated) => {
+        if (hasUpdated) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
       })
       .catch((err) => console.log(err));
   });

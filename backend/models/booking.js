@@ -41,6 +41,51 @@ const createNewBooking = (customer_id, table_id, bookingDate) => {
   });
 };
 
+const updateBookingTable = (booking_id, table_id) => {
+  return new Promise((resolve, reject) => {
+    timeDifference(booking_id).then((canChange) => {
+      if (canChange) {
+        Booking.findOneAndUpdate(
+          { booking_id },
+          { tableID: table_id },
+          function (err) {
+            if (err) {
+              console.log(err);
+              reject(err);
+            }
+            resolve(true);
+          }
+        );
+      } else {
+        resolve(false);
+      }
+    });
+  });
+};
+
+const updateBookingTime = (booking_id, bookingDate) => {
+  return new Promise((resolve, reject) => {
+    timeDifference(booking_id).then((canChange) => {
+      console.log("canChange", canChange)
+      if (canChange) {
+        Booking.findOneAndUpdate(
+          { booking_id },
+          { bookingDate: bookingDate },
+          function (err) {
+            if (err) {
+              console.log(err);
+              reject(err);
+            }
+            resolve(true);
+          }
+        );
+      } else {
+        resolve(false);
+      }
+    });
+  });
+};
+
 const updateOrder = (order_id, menuItems) => {
   return new Promise((resolve, reject) => {
     Order.findOneAndUpdate(
@@ -59,21 +104,27 @@ const updateOrder = (order_id, menuItems) => {
 
 const deleteBooking = (booking_id) => {
   return new Promise((resolve, reject) => {
-    Booking.findByIdAndDelete(booking_id, { _id: 0, tableID: 1 }, function (
-      err,
-      tableID
-    ) {
-      if (err) reject(err);
+    timeDifference(booking_id).then((canChange) => {
+      if (canChange) {
+        Booking.findByIdAndDelete(booking_id, { _id: 0, tableID: 1 }, function (
+          err,
+          tableID
+        ) {
+          if (err) reject(err);
 
-      table
-        .getTableNumber(tableID.tableID)
-        .then((tableNumber) => {
-          table.cancelBookedTable(tableNumber).then(() => {
-            resolve();
-          });
-        })
-        .catch((err) => console.log(err));
-      resolve();
+          table
+            .getTableNumber(tableID.tableID)
+            .then((tableNumber) => {
+              table.cancelBookedTable(tableNumber).then(() => {
+                resolve();
+              });
+            })
+            .catch((err) => console.log(err));
+          resolve();
+        });
+      } else {
+        resolve(false);
+      }
     });
   });
 };
@@ -130,9 +181,22 @@ const getBookings = (dateIN, typeOfCheck) => {
   });
 };
 
+const timeDifference = (booking_id) => {
+  return new Promise((resolve, reject) => {
+    Booking.findById(booking_id, function (err, booking) {
+      if (err) reject(err);
+      console.log((booking.bookingDate - new Date()) / 3600000)
+      resolve((booking.bookingDate - new Date()) / 3600000 > 24);
+    });
+  });
+};
+
 module.exports = {
   createNewBooking,
   deleteBooking,
   getBookings,
+  updateBookingTable,
+  updateBookingTime,
   updateOrder,
+  timeDifference,
 };
