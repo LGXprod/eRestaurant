@@ -7,7 +7,8 @@ const bookingSchema = new mongoose.Schema({
   tableID: String,
   customerID: String,
   bookingDate: Date, //not sure if date is correct type//
-  order: [String], // array of menu item ids
+  order: [String],
+  invoiceDate: Date, // array of menu item ids
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);
@@ -42,13 +43,17 @@ const createNewBooking = (customer_id, table_id, bookingDate) => {
 
 const updateOrder = (order_id, menuItems) => {
   return new Promise((resolve, reject) => {
-    Order.findOneAndUpdate({ order_id }, { order: menuItems }, function (err) {
-      if (err) {
-        console.log(err);
-        reject(err);
+    Order.findOneAndUpdate(
+      { order_id },
+      { order: menuItems, invoiceDate: new Date() },
+      function (err) {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
+        resolve();
       }
-      resolve();
-    });
+    );
   });
 };
 
