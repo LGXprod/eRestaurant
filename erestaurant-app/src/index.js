@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Home, Registration, Dashboard, BookingPage, UserAccount, MenuConfig, Menu } from "./routes/Routes";
+import { Home, Registration, Dashboard, BookingPage, UserAccount, MenuConfig, Menu, HomePage } from "./routes/Routes";
 import './index.css'
 
 ReactDOM.render(
@@ -16,5 +16,5 @@ ReactDOM.render(
       <Route path="/Menu/Configuration" component={MenuConfig} />
     </Switch>
   </Router>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

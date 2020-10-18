@@ -19,7 +19,7 @@ module.exports = (app) => {
       .createNewBooking(
         req.body.customer_id,
         new mongoose.Types.ObjectId(req.body.table_id),
-        req.body.date
+        decodeURIComponent(req.body.date)
       )
       .then(() => {
         res.sendStatus(200);
@@ -33,6 +33,18 @@ module.exports = (app) => {
       .deleteBooking(new mongoose.Types.ObjectId(decodeURIComponent(req.query.booking_id)))
       .then(() => {
         res.sendStatus(200);
+      })
+      .catch((err) => console.log(err));
+  });
+
+  app.get("/Booking", (req, res) => {
+    // frontend must uri encode the booking_id when before using it as a url parameter
+    // console.log("x", (new Date (decodeURIComponent(req.query.date))).getHours());
+    // console.log(req.query.check_time);
+    booking
+      .getBookings(new Date(decodeURIComponent(req.query.date)), req.query.check_time)
+      .then((bookings) => {
+        res.json(bookings);
       })
       .catch((err) => console.log(err));
   });
