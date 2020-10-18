@@ -7,6 +7,7 @@ const bookingSchema = new mongoose.Schema({
   tableID: String,
   customerID: String,
   bookingDate: Date, //not sure if date is correct type//
+  order: [String], // array of menu item ids
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);
@@ -39,6 +40,18 @@ const createNewBooking = (customer_id, table_id, bookingDate) => {
   });
 };
 
+const updateOrder = (order_id, menuItems) => {
+  return new Promise((resolve, reject) => {
+    Order.findOneAndUpdate({ order_id }, { order: menuItems }, function (err) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+      resolve();
+    });
+  });
+};
+
 const deleteBooking = (booking_id) => {
   return new Promise((resolve, reject) => {
     Booking.findByIdAndDelete(booking_id, { _id: 0, tableID: 1 }, function (
@@ -68,7 +81,7 @@ const getBookings = (dateIN, typeOfCheck) => {
     const month = date.getMonth();
     const day = date.getDate();
     const year = date.getFullYear();
-    console.log("set hour", hour)
+    console.log("set hour", hour);
 
     function dateAloneCheck() {
       return new Promise((resolve, reject) => {
@@ -96,8 +109,8 @@ const getBookings = (dateIN, typeOfCheck) => {
       } else {
         let booking_times = [];
         for (let booking of bookings) {
-          console.log("h", booking.bookingDate.getHours(), "h2", hour)
-          console.log("m", booking.bookingDate.getMinutes(), "m2", minute)
+          console.log("h", booking.bookingDate.getHours(), "h2", hour);
+          console.log("m", booking.bookingDate.getMinutes(), "m2", minute);
           if (
             booking.bookingDate.getMinutes() == minute &&
             booking.bookingDate.getHours() == hour
@@ -105,7 +118,7 @@ const getBookings = (dateIN, typeOfCheck) => {
             booking_times.push(booking);
           }
         }
-        console.log("bookings", booking_times)
+        console.log("bookings", booking_times);
         resolve(booking_times);
       }
     });
@@ -116,4 +129,5 @@ module.exports = {
   createNewBooking,
   deleteBooking,
   getBookings,
+  updateOrder,
 };
