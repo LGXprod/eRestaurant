@@ -42,11 +42,7 @@ const LoginForm = (props) => {
           >
             <Typography
               variant="h4"
-              inputProps={{
-                classes: {
-                  input: `${classes.formRows} ${classes.text}`,
-                },
-              }}
+              className={`${classes.formRows} ${classes.text}`}
             >
               Welcome Back
             </Typography>

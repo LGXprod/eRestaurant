@@ -152,7 +152,7 @@ function RegForm(props) {
           <Grid item xs={6}>
             <STextField
               variant="outlined"
-              label="First name"
+              label="First Name"
               className={classes.signformRows}
               onChange={(e) => updateFormData(e.target.value, "fName")}
             />
@@ -161,7 +161,7 @@ function RegForm(props) {
           <Grid item xs={6}>
             <STextField
               variant="outlined"
-              label="Last name"
+              label="Last Name"
               className={classes.signformRows}
               onChange={(e) => updateFormData(e.target.value, "sName")}
             />
@@ -184,7 +184,7 @@ function RegForm(props) {
               {() => (
                 <STextField
                   variant="outlined"
-                  label="Phone number"
+                  label="Phone Number"
                   className={classes.signformRows}
                 />
               )}
@@ -246,15 +246,15 @@ function RegForm(props) {
                   )}
                 </InputMask>
               </Grid>
-
+              <Grid item xs={12}>
               <Button
-                className={`${classes.signformRows} ${classes.signupButton}`}
+                className={`${classes.signformRows} ${classes.roleButton}`}
                 variant="contained"
                 onClick={handleClick}
               >
                 {formData.role == null ? "Select Role" : formData.role}
               </Button>
-
+              </Grid>
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -262,10 +262,10 @@ function RegForm(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem
+                <MenuItem 
                   onClick={() => {
                     handleClose();
-                    updateFormData("management", "role");
+                    updateFormData("Management", "role");
                   }}
                 >
                   Management
@@ -273,7 +273,7 @@ function RegForm(props) {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    updateFormData("customer service", "role");
+                    updateFormData("Customer service", "role");
                   }}
                 >
                   Customer Service
@@ -281,7 +281,7 @@ function RegForm(props) {
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    updateFormData("chef", "role");
+                    updateFormData("Chef", "role");
                   }}
                 >
                   Chef
@@ -301,9 +301,15 @@ function RegForm(props) {
           </Grid>
 
           {formCompleted == null || formCompleted ? null : (
-            <Grid item xs={6}>
-              <Typography variant="caption">
-                Form has not been correctly filled out.
+            <Grid item xs={12}>
+              <Typography variant="caption"
+                          style={{
+                              fontFamily: "Nunito",
+                              color: "red",
+                              marginLeft: "80px",
+                          }}
+              >
+                Form has not been correctly filled out
               </Typography>
             </Grid>
           )}
@@ -322,7 +328,11 @@ function RegForm(props) {
             </Typography>
           </Typography>
 
-          <Typography className={`${classes.formRows} ${classes.bottomText}`}>
+          <Typography className={`${classes.formRows} ${classes.bottomText}`}
+                      style={{
+                        marginTop: "-10px",
+                      }}
+          >
             Registering as a {!registerStaff ? "staff member" : "customer "}?
             <Typography
               className={`${classes.formRows} ${classes.bottomText}`}

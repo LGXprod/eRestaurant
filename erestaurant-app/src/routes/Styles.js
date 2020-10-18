@@ -92,7 +92,54 @@ const useStyles = (theme) => ({
   inputData: {
     fontFamily: "Nunito-Regular",
     marginTop: "15px",
-  }
+  },
+  addMenuButton: {
+    backgroundColor: "#54B82A",
+    fontFamily: "Nunito",
+    textTransform: "none",
+    fontSize: "19px",
+    borderRadius: 0,
+    width: "80%",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#54B82A",
+      color: "#fff",
+    },
+  },
+  uploadFileButton: {
+    backgroundColor: "grey",
+    fontFamily: "Nunito",
+    textTransform: "none",
+    fontSize: "19px",
+    borderRadius: 0,
+    width: "80%",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "grey",
+      color: "#fff",
+    },
+  },
+  roleButton: {
+    backgroundColor: "white",
+    fontFamily: "Nunito-Regular",
+    textTransform: "none",
+    fontSize: "17px",
+    height: "47px",
+    borderRadius: 0,
+    boxShadow: "none",
+    border: "1px solid grey",
+    width: "93.5%",
+    color: "black",
+    "&:hover": {
+      backgroundColor: "white",
+      color: "black",
+    },
+  },
+  loading: {
+    color: "Black",
+    fontFamily: "Nunito",
+    fontSize: 15,
+  },
 });
 
 const STextField = withStyles({

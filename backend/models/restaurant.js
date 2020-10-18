@@ -16,13 +16,9 @@ const restaurantSchema = new mongoose.Schema({
     required: [true, "Missing staff array"],
     type: [String],
   },
-  tableNums: {
+  tables: {
     required: [true, "Missing tableNums"],
-    type: [Number],
-  },
-  sections: {
-    required: [true, "Missing sections"],
-    type: String,
+    type: [Object],
   },
   category: {
     required: [true, "Missing category"],
@@ -36,8 +32,7 @@ const createRestaurant = (
   name,
   img,
   currentStaff,
-  tableNums,
-  sections,
+  tables,
   category
 ) => {
   return new Promise((resolve, reject) => {
@@ -47,8 +42,7 @@ const createRestaurant = (
         fs.readFileSync(`${path.resolve("./uploads")}/${img.filename}`)
       ).toString("base64"),
       staff_ids: currentStaff,
-      tableNums,
-      sections,
+      tables,
       category,
     });
 

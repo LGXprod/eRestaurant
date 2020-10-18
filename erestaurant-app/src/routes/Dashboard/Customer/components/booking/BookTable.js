@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import { Grid, Paper, withStyles } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -7,6 +7,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Styles from "../../DashboardStyles";
+import useDimensions from "react-cool-dimensions";
 
 function BookTable(props) {
   const { classes } = props;
@@ -14,6 +15,7 @@ function BookTable(props) {
   const [layout, setLayout] = useState();
   const [sections, setSections] = useState();
   const [tablesSelected, setTablesSelected] = useState([]);
+  const layoutRef = useRef();
 
   useEffect(() => {
     async function getLayout() {
@@ -26,11 +28,8 @@ function BookTable(props) {
         const img = new Image();
         img.src = `data:image/png;base64, ${restaurant[0].layout}`;
 
-        console.log(JSON.parse(restaurant[0].sections))
-
         img.onload = () => {
-
-          console.log(img.naturalHeight)
+          console.log(img.naturalHeight);
           for (let section of JSON.parse(restaurant[0].sections)) {
             const style = section.props.style;
             if (style !== null) {
@@ -60,6 +59,10 @@ function BookTable(props) {
 
     getLayout();
   }, []);
+
+  useEffect(() => {
+    console.log(layoutRef)
+  }, [layoutRef]);
 
   return (
     <div>
@@ -102,8 +105,10 @@ function BookTable(props) {
 
       {layout !== null ? (
         <img
+          id="layout"
           alt="Layout"
           src={layout}
+          ref={layoutRef}
           onClick={(e) => {
             for (let section of sections) {
               console.log("s", sections);
@@ -111,7 +116,6 @@ function BookTable(props) {
               if (e.clientX >= section.x1 && e.clientX <= section.x2) {
                 console.log("x!");
                 if (e.clientY <= section.y1 && e.clientY >= section.y2) {
-                  console.log("t", section.tableNo);
                   setTablesSelected([...tablesSelected, section.tableNo]);
                 }
               }

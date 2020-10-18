@@ -7,8 +7,7 @@ module.exports = (app, upload) => {
         req.body.name,
         req.file,
         JSON.parse(req.body.currentStaff),
-        JSON.parse(req.body.tableNums),
-        req.body.sections,
+        req.body.tables,
         req.body.category
       )
       .then(() => {
