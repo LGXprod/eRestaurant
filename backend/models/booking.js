@@ -66,7 +66,6 @@ const updateBookingTable = (booking_id, table_id) => {
 const updateBookingTime = (booking_id, bookingDate) => {
   return new Promise((resolve, reject) => {
     timeDifference(booking_id).then((canChange) => {
-      console.log("canChange", canChange)
       if (canChange) {
         Booking.findOneAndUpdate(
           { booking_id },

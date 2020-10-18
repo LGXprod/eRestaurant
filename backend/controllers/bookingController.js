@@ -79,12 +79,10 @@ module.exports = (app) => {
       .catch((err) => console.log(err));
   });
 
-  app.post("/ChangeBooking/Date", (req, res) => {
+  app.post("/ChangeBooking/Table", (req, res) => {
+
     booking
-      .updateBookingDate(
-        req.body.booking_id,
-        decodeURIComponent(req.body.date)
-      )
+      .updateBookingTime(req.body.booking_id, req.body.table_id)
       .then((hasUpdated) => {
         if (hasUpdated) {
           res.sendStatus(200);
