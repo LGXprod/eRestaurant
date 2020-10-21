@@ -10,16 +10,13 @@ module.exports = (app, upload) => {
         JSON.parse(req.body.currentStaff),
         req.body.category
       )
-      .then((restaurant_id) => {
-        table.createNewTable({
-          tableNumber: req.body.tables.tableNum,
-          capacity: req.body.tables.numSeats,
-          outside: req.body.tables.outside,
-          available: false,
-          restaurant_id
-        }).then(() => {
-          res.sendStatus(200);
-        }).catch(err => console.log(err));
+      .then((restaurantID) => {
+        table
+          .createNewTables(restaurantID, JSON.parse(req.body.tables))
+          .then(() => {
+            res.sendStatus(200);
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   });

@@ -36,8 +36,8 @@ function RestaurantReg(props) {
     formData.append("category", formText.category);
     formData.append("currentStaff", JSON.stringify([]));
     formData.append("img", files[0]);
-    console.log("tables", formText.tables);
-    formData.append("tables", formText.tables);
+    console.log("tables", JSON.stringify(formText.tables));
+    formData.append("tables", JSON.stringify(formText.tables));
 
     const res = await fetch("/Restaurant", {
       method: "POST",
@@ -183,7 +183,7 @@ function RestaurantReg(props) {
                   setTable({
                     ...table,
                     located: e.target.value,
-                    isOutside: e.target.value ? false : true,
+                    isOutside: e.target.value === "inside" ? false : true,
                   });
                 }}
               >
@@ -243,7 +243,7 @@ function RestaurantReg(props) {
               return (
                 <p key={index}>
                   Table Number: {value.number} | Number of Seats:{" "}
-                  {value.numSeats}
+                  {value.numSeats} | {value.isOutside ? "Outside" : "Inside"}
                 </p>
               );
             })}

@@ -4,14 +4,31 @@ const tableSchema = new mongoose.Schema({
   tableNumber: Number,
   capacity: Number,
   isAvailable: Boolean,
-  location: String,
-  restuarantID: String,
+  isOutside: Boolean,
+  restaurantID: String,
 });
 
 const Table = mongoose.model("Table", tableSchema);
 
-const createNewTable = (formData) => {
-  return new Promise((resolve, reject) => {});
+const createNewTables = (restaurantID, tables) => {
+  return new Promise((resolve, reject) => {
+    let formattedtables = [];
+
+    tables.forEach(function (table) {
+      formattedtables.push({
+        tableNumber: table.number,
+        capacity: table.numSeats,
+        isAvailable: false,
+        isOutside: table.isOutside,
+        restaurantID,
+      });
+    });
+
+    Table.collection.insertMany(tables, function (err) {
+      if (err) reject(err);
+      resolve();
+    });
+  });
 };
 
 const findAvailableTables = () => {
@@ -98,7 +115,7 @@ const getTablesByRestaurant = (restaurant_id) => {
 };
 
 module.exports = {
-  createNewTable: createNewTable,
+  createNewTables,
   findAvailableTables: findAvailableTables,
   bookTable: bookTable,
   cancelBookedTable: cancelBookedTable,
