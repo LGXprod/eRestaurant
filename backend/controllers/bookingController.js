@@ -30,9 +30,15 @@ module.exports = (app) => {
   app.delete("/Booking", (req, res) => {
     // frontend must uri encode the booking_id when before using it as a url parameter
     booking
-      .deleteBooking(new mongoose.Types.ObjectId(decodeURIComponent(req.query.booking_id)))
-      .then(() => {
-        res.sendStatus(200);
+      .deleteBooking(
+        new mongoose.Types.ObjectId(decodeURIComponent(req.query.booking_id))
+      )
+      .then((hasUpdated) => {
+        if (hasUpdated) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
       })
       .catch((err) => console.log(err));
   });
@@ -42,9 +48,47 @@ module.exports = (app) => {
     // console.log("x", (new Date (decodeURIComponent(req.query.date))).getHours());
     // console.log(req.query.check_time);
     booking
-      .getBookings(new Date(decodeURIComponent(req.query.date)), req.query.check_time)
+      .getBookings(
+        new Date(decodeURIComponent(req.query.date)),
+        req.query.check_time
+      )
       .then((bookings) => {
         res.json(bookings);
+      })
+      .catch((err) => console.log(err));
+  });
+
+  app.post("/Booking/MenuItems", (req, res) => {
+    booking
+      .updateOrder(JSON.parse(req.body.menuItemIDs))
+      .then(() => {})
+      .catch((err) => console.log(err));
+  });
+
+  app.post("/ChangeBooking/Time", (req, res) => {
+    console.log("x:", req.body.date)
+    booking
+      .updateBookingTime(req.body.booking_id, new Date(req.body.date))
+      .then((hasUpdated) => {
+        if (hasUpdated) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
+      })
+      .catch((err) => console.log(err));
+  });
+
+  app.post("/ChangeBooking/Table", (req, res) => {
+
+    booking
+      .updateBookingTime(req.body.booking_id, req.body.table_id)
+      .then((hasUpdated) => {
+        if (hasUpdated) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(401);
+        }
       })
       .catch((err) => console.log(err));
   });

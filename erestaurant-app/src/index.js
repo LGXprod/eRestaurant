@@ -10,6 +10,7 @@ import {
   Menu,
   HomePage,
   RestaurantReg,
+  Dashboard,
 } from "./routes/Routes";
 import "./index.css";
 
@@ -18,7 +19,8 @@ ReactDOM.render(
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/Registration" component={Registration} />
-      <Route path="/Booking" component={BookingPage} />
+      <Route path="/Dashboard" component={Dashboard} />
+      <Route path="/BookingPage" component={BookingPage} />
       <Route path="/UserAccount" component={UserAccount} />
       <Route exact path="/Menu" component={Menu} />
       <Route path="/Menu/Configuration" component={MenuConfig} />
