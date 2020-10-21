@@ -13,119 +13,32 @@ function BookTable(props) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const canvasRef = useRef(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+  let tables = [];
+  let i = 0;
 
-    const img = new Image();
-    img.src = require("./table-layout.png");
-
-    img.onload = () => {
-      ctx.drawImage(img, 0, 0, 600, 600);
-
-      const imgData = ctx.getImageData(0, 0, 600, 600).data;
-      // console.log(imgData);
-
-      let pixels = [];
-
-      for (let x = 0; x < 600; x++) {
-        pixels.push([]);
-        for (let y = 0; y < 600; y++) {
-          pixels[x].push({
-            red: imgData[y * 600 * 4 + x * 4],
-            green: imgData[y * 600 * 4 + x * 4 + 1],
-            blue: imgData[y * 600 * 4 + x * 4 + 2],
-            alpha: imgData[y * 600 * 4 + x * 4 + 3],
-          });
-        }
-      }
-
-      let tables = [];
-
-      function isGreen(pixel) {
-        return pixel.red === 2 && pixel.green === 187 && pixel.blue === 0
-          ? true
-          : false;
-      }
-
-      let partialTables = [];
-
-      for (let x = 0; x < 600; x += 15) {
-        for (let y = 0; y < 600; y += 15) {
-          if (isGreen(pixels[x][y])) {
-            let isNew = true;
-
-            for (let partialTable of partialTables) {
-              if (partialTable.yPos2 === y - 15) {
-                partialTables.yPos2 = y;
-                isNew = false;
-              } 
-              
-              if (partialTable.xPos2 === x - 15) {
-                partialTable.xPos2 = x;
-                isNew = false;
-              }
-            } 
-
-            if (isNew) {
-              partialTables.push({
-                xPos1: x,
-                yPos1: y,
-                xPos2: x,
-                yPos2: y,
-              });
-            }
-          } 
-        }
-      }
-
-      console.log("x", partialTables);
-
-      // for (let x = 0; x < 20; x += 30) {
-      //   let isGreen = false;
-      //   let table;
-
-      //   for (let y = 0; y < 20; y += 30) {
-      //     if (!isGreen) {
-      //       if (isGreen(pixels[x][y])) {
-      //         isGreen = true;
-
-      //         table = {
-      //           xStart: x,
-      //           yStart: y,
-      //           xEnd: x,
-      //           yEnd: y,
-      //         }
-      //       }
-      //     } else {
-      //       if (isGreen(pixels[x][y])) {
-      //         table.yEnd += 30;
-      //       } else {
-
-      //       }
-      //     }
-      //   }
-      // }
-
-      //   if (isGreen(pixels[x][y])) {
-      //     let width = 30;
-      //     while (isGreen(pixels[x+width][y])) width += 30;
-
-      //     let height = 30;
-      //     while (isGreen(pixels[x][y+height])) height += 30;
-
-      //     tables.push({
-
-      //     })
-      //    }
-
-      console.log(tables);
-    };
-  }, []);
+  for (let y = 0; y < 600; y+=40) {
+    for (let x = 0; x < 600; x+=40) {
+      tables.push(
+        <div
+          key={i}
+          style={{
+            width: "40px",
+            height: "40px",
+            left: `${x}px`,
+            top: `${y}px`,
+            backgroundColor: "red",
+            display: "inline-block",
+            position: "absolute",
+          }}
+        ></div>
+      );
+      i++;
+    }
+  }
 
   return (
     <Fragment>
-      <h1>{props.restaurantName}</h1>
+      <h1 className={classes.text}>{props.restaurantName}</h1>
 
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
@@ -162,10 +75,15 @@ function BookTable(props) {
         />
       </MuiPickersUtilsProvider>
 
+<<<<<<< HEAD
       {/* <div className={classes.table_layout}>{tables}</div> */}
       <div>
         <canvas ref={canvasRef} width={600} height={600} />
       </div>
+=======
+      <div className={classes.table_layout}>{tables}</div>
+
+>>>>>>> ecf4be2fe4d3742c8e17574070e50eefdc359e10
     </Fragment>
   );
 }

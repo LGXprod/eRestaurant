@@ -41,12 +41,7 @@ const LoginForm = (props) => {
             alignItems="center"
           >
             <Typography
-              variant="h4"
-              inputProps={{
-                classes: {
-                  input: `${classes.formRows} ${classes.text}`,
-                },
-              }}
+              variant="h4" className={`${classes.formRows} ${classes.text}`}
             >
               Welcome Back
             </Typography>
@@ -81,7 +76,7 @@ const LoginForm = (props) => {
             <Button
               className={`${classes.formRows} ${classes.loginButton}`}
               variant="contained"
-              onClick={() => setIsUser(checkLogin(username, password))}
+              onClick={() => checkLogin(username, password, setIsUser)}
             >
               Login
             </Button>

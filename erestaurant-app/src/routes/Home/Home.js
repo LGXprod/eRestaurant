@@ -19,7 +19,7 @@ function Home() {
     );
   }
 
-  async function checkLogin(username, password) {
+  async function checkLogin(username, password, setState) {
     const response = await fetch("/Login", {
       method: "POST",
       headers: {
@@ -42,9 +42,9 @@ function Home() {
           cookies.set("Session id", res.session_id, {
             expires: expiryDate,
           });
-          return true;
+          if (setState != null) setState(true);
         } else {
-          return false;
+          if (setState != null) setState(false);
         }
       })
       .catch((err) => console.log(err));

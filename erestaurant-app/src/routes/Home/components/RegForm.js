@@ -313,6 +313,7 @@ function RegForm(props) {
             <Typography
               className={`${classes.formRows} ${classes.bottomText}`}
               style={{
+                marginBottom: "-100px",
                 color: "#54B82A",
                 cursor: "pointer",
               }}
