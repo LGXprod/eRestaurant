@@ -13,6 +13,7 @@ function BookTable(props) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const canvasRef = useRef(null);
 
+<<<<<<< HEAD
   let tables = [];
   let i = 0;
 
@@ -35,6 +36,12 @@ function BookTable(props) {
       i++;
     }
   }
+=======
+  useEffect(() => {
+
+    
+  }, []);
+>>>>>>> 30142b64b3203f3b6a460e296f194bbbd706253e
 
   return (
     <Fragment>
@@ -74,6 +81,7 @@ function BookTable(props) {
           }}
         />
       </MuiPickersUtilsProvider>
+<<<<<<< HEAD
 
 <<<<<<< HEAD
       {/* <div className={classes.table_layout}>{tables}</div> */}
@@ -84,6 +92,8 @@ function BookTable(props) {
       <div className={classes.table_layout}>{tables}</div>
 
 >>>>>>> ecf4be2fe4d3742c8e17574070e50eefdc359e10
+=======
+>>>>>>> 30142b64b3203f3b6a460e296f194bbbd706253e
     </Fragment>
   );
 }
