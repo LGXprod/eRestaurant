@@ -29,7 +29,7 @@ const BookingPage = (props) => {
               >
                 <Typography className={classes.restPhoto}>
                   <img
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", height: '200px'}}
                     src={`data:image/png;base64, ${restaurant.img}`}
                     alt="Logo"
                   />
@@ -80,7 +80,7 @@ const BookingPage = (props) => {
               Select a Restaurant
             </Typography>
 
-            <Grid container direction="row" justify="center" alignItems="center">
+            <Grid container direction="row" justify="center">
               {restaurantPanels}
             </Grid>
           </Fragment>

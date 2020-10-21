@@ -6,6 +6,9 @@ import {
   Paper,
   Grid,
   withStyles,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@material-ui/core";
 import Styles, { STextField } from "../../Styles";
 
@@ -21,6 +24,8 @@ function RestaurantReg(props) {
   const [table, setTable] = useState({
     number: null,
     numSeats: null,
+    located: "inside",
+    isOutside: false,
   });
 
   async function uploadResData() {
@@ -31,7 +36,7 @@ function RestaurantReg(props) {
     formData.append("category", formText.category);
     formData.append("currentStaff", JSON.stringify([]));
     formData.append("img", files[0]);
-    console.log("tables", formText.tables)
+    console.log("tables", formText.tables);
     formData.append("tables", formText.tables);
 
     const res = await fetch("/Restaurant", {
@@ -172,6 +177,28 @@ function RestaurantReg(props) {
                 style={{ width: "25%" }}
               />
 
+              <RadioGroup
+                value={table.outside}
+                onChange={(e) => {
+                  setTable({
+                    ...table,
+                    located: e.target.value,
+                    isOutside: e.target.value ? false : true,
+                  });
+                }}
+              >
+                <FormControlLabel
+                  value="inside"
+                  control={<Radio />}
+                  label="Inside"
+                />
+                <FormControlLabel
+                  value="outside"
+                  control={<Radio />}
+                  label="Outside"
+                />
+              </RadioGroup>
+
               <Button
                 style={{ width: "10%" }}
                 onClick={() => {
@@ -212,9 +239,9 @@ function RestaurantReg(props) {
             justify="center"
             alignItems="center"
           >
-            {formText.tables.map(function (value) {
+            {formText.tables.map(function (value, index) {
               return (
-                <p>
+                <p key={index}>
                   Table Number: {value.number} | Number of Seats:{" "}
                   {value.numSeats}
                 </p>

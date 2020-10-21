@@ -5,6 +5,7 @@ const tableSchema = new mongoose.Schema({
   capacity: Number,
   isAvailable: Boolean,
   location: String,
+  restuarantID: String,
 });
 
 const Table = mongoose.model("Table", tableSchema);
@@ -82,10 +83,25 @@ const getTableNumber = (table_id) => {
   });
 };
 
+const getTablesByRestaurant = (restaurant_id) => {
+  return new Promise((resolve, reject) => {
+    Table.find({ erestuarant_id }, (err, tables) => {
+      if (err) reject(err);
+
+      if (tables.length == 0) {
+        resolve(null);
+      } else {
+        resolve(tables);
+      }
+    });
+  });
+};
+
 module.exports = {
   createNewTable: createNewTable,
   findAvailableTables: findAvailableTables,
   bookTable: bookTable,
   cancelBookedTable: cancelBookedTable,
   getTableNumber: getTableNumber,
+  getTablesByRestaurant,
 };

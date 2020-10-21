@@ -1,4 +1,5 @@
 const restaurant = require("../models/restaurant");
+const table = require("../models/table");
 
 module.exports = (app, upload) => {
   app.post("/Restaurant", upload.single("img"), (req, res) => {
@@ -7,11 +8,18 @@ module.exports = (app, upload) => {
         req.body.name,
         req.file,
         JSON.parse(req.body.currentStaff),
-        req.body.tables,
         req.body.category
       )
-      .then(() => {
-        res.sendStatus(200);
+      .then((restaurant_id) => {
+        table.createNewTable({
+          tableNumber: req.body.tables.tableNum,
+          capacity: req.body.tables.numSeats,
+          outside: req.body.tables.outside,
+          available: false,
+          restaurant_id
+        }).then(() => {
+          res.sendStatus(200);
+        }).catch(err => console.log(err));
       })
       .catch((err) => console.log(err));
   });
