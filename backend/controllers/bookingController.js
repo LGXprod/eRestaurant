@@ -3,6 +3,7 @@ const session = require("../models/session");
 const table = require("../models/table");
 const booking = require("../models/booking");
 const mongoose = require("mongoose");
+const e = require("express");
 
 module.exports = (app) => {
   // app.post("/Booking", (req, res) => {
@@ -66,7 +67,7 @@ module.exports = (app) => {
   });
 
   app.post("/ChangeBooking/Time", (req, res) => {
-    console.log("x:", req.body.date)
+    console.log("x:", req.body.date);
     booking
       .updateBookingTime(req.body.booking_id, new Date(req.body.date))
       .then((hasUpdated) => {
@@ -80,7 +81,6 @@ module.exports = (app) => {
   });
 
   app.post("/ChangeBooking/Table", (req, res) => {
-
     booking
       .updateBookingTime(req.body.booking_id, req.body.table_id)
       .then((hasUpdated) => {
@@ -89,6 +89,15 @@ module.exports = (app) => {
         } else {
           res.sendStatus(401);
         }
+      })
+      .catch((err) => console.log(err));
+  });
+
+  app.get("/Table", (req, res) => {
+    table
+      .getTablesByRestaurant(req.query.restaurantID)
+      .then((tables) => {
+        res.json(tables);
       })
       .catch((err) => console.log(err));
   });

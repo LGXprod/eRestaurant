@@ -11,6 +11,7 @@ module.exports = (app, upload) => {
         req.body.category
       )
       .then((restaurantID) => {
+        console.log("restaurantID", restaurantID)
         table
           .createNewTables(restaurantID, JSON.parse(req.body.tables))
           .then(() => {

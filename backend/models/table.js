@@ -15,19 +15,30 @@ const createNewTables = (restaurantID, tables) => {
     let formattedtables = [];
 
     tables.forEach(function (table) {
-      formattedtables.push({
+      console.log({
         tableNumber: table.number,
         capacity: table.numSeats,
         isAvailable: false,
         isOutside: table.isOutside,
         restaurantID,
       });
+      (new Table({
+        tableNumber: table.number,
+        capacity: table.numSeats,
+        isAvailable: false,
+        isOutside: table.isOutside,
+        restaurantID,
+      })).save(function(err) {
+        if (err) reject(err);
+      });
     });
 
-    Table.collection.insertMany(tables, function (err) {
-      if (err) reject(err);
-      resolve();
-    });
+    resolve();
+
+    // Table.collection.insertMany(tables, function (err) {
+    //   if (err) reject(err);
+    //   resolve();
+    // });
   });
 };
 
@@ -100,9 +111,9 @@ const getTableNumber = (table_id) => {
   });
 };
 
-const getTablesByRestaurant = (restaurant_id) => {
+const getTablesByRestaurant = (restaurantID) => {
   return new Promise((resolve, reject) => {
-    Table.find({ erestuarant_id }, (err, tables) => {
+    Table.find({ restaurantID }, (err, tables) => {
       if (err) reject(err);
 
       if (tables.length == 0) {
