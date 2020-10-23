@@ -1,14 +1,64 @@
 import React, { Fragment, useState, useEffect } from "react";
-import {
-  Typography,
-  Paper,
-  withStyles
-} from "@material-ui/core";
-import Styles from "../Styles";
+import { Typography, Paper, withStyles, Button } from "@material-ui/core";
+import Styles, { STextField } from "../Styles";
+import MenuItem from "./MenuItem";
+import queryString from "querystring";
+import Cookie from "universal-cookie";
+import Invoice from "./Invoice";
 
 function Menu(props) {
   const { classes } = props;
   let [items, setItems] = useState([]);
+  let [price, setPrice] = useState();
+  let [prices, setPrices] = useState({});
+  let [totalPrice, setTotalPrice] = useState(0);
+  let [showInvoice, setShowInvoice] = useState(false);
+
+  async function makeOrder() {
+    const cookie = new Cookie();
+    let order = prices;
+
+    delete order["item_id"];
+    console.log("order", order);
+
+    const res = await fetch("/Booking/MenuItems", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+      },
+      body: queryString.stringify({
+        session_id: cookie.get("Session id"),
+        order: JSON.stringify(order),
+      }),
+    });
+
+    if (res.status === 200) setShowInvoice(true);
+  }
+
+  useEffect(() => {
+    console.log("what", price);
+    try {
+      // setPrices({ ...prices, [price.item_id]: price.price });
+      setPrices({
+        ...prices,
+        [price.item_id]: {
+          price: price.price,
+          quantity: price.quantity,
+          name: price.name,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [price]);
+
+  useEffect(() => {
+    let total = 0;
+
+    for (let x in prices) if (x !== "item_id") total += prices[x].price;
+
+    setTotalPrice(total);
+  }, [prices]);
 
   useEffect(() => {
     async function getMenu(category) {
@@ -18,35 +68,36 @@ function Menu(props) {
         .json()
         .then(async (menus) => {
           let i = 1;
+
           for (let menu of menus) {
-            setItems(items.push(<Typography style={{ color: "Black",
-            fontFamily: "Nunito-Bold",
-            fontSize: 20, }}>{menu._id}</Typography>));
+            setItems(
+              items.push(
+                <Typography
+                  style={{
+                    color: "Black",
+                    fontFamily: "Nunito-Bold",
+                    fontSize: 20,
+                  }}
+                >
+                  {menu._id}
+                </Typography>
+              )
+            );
+
             for (let item of menu.items) {
               let menuItems = items;
               menuItems.push(
-                <div key={i}>
-                <Typography style={{ color: "Black",
-                fontFamily: "Nunito",
-                fontSize: 14, }}
-                >{item.name}</Typography>
-                  <img
-                    alt="Menu item"
-                    src={`data:image/png;base64, ${item.img}`}
-                    style={{ height: 200, width: 200, objectFit: 'cover' }}
-                  />
-                </div>
+                <MenuItem
+                  i={i}
+                  item={item}
+                  classes={classes}
+                  setPrice={setPrice}
+                />
               );
               setItems([...menuItems]);
-              console.log(items);
-              i++;
+              setPrices({ ...prices, item_id: item.id });
 
-              // leave this in its just to show they each image is loaded in
-              // one by one
-              // await new Promise(resolve => setTimeout(() => {
-              //   console.log("work");
-              //   resolve();
-              // }, 1000));
+              i++;
             }
           }
         })
@@ -58,7 +109,21 @@ function Menu(props) {
 
   return (
     <Fragment>
-      <div className = {classes.menuBox}>{items}</div>
+      {!showInvoice ? (
+        <div className={classes.menuBox}>
+          {items}
+          <h3>{`$${totalPrice.toFixed(2)}`}</h3>
+          <Button
+            className={`${classes.formRows} ${classes.loginButton}`}
+            variant="contained"
+            onClick={makeOrder}
+          >
+            Make Order
+          </Button>
+        </div>
+      ) : (
+        <Invoice order={prices} totalPrice={totalPrice} />
+      )}
     </Fragment>
   );
 }

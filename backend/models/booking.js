@@ -1,41 +1,39 @@
 const mongoose = require("mongoose");
 const table = require("../models/table");
-const crypto = require("crypto");
-const customer = require("./customer");
+const session = require("../models/session");
 
 const bookingSchema = new mongoose.Schema({
-  tableID: String,
+  tableIDs: [String],
   customerID: String,
   bookingDate: Date, //not sure if date is correct type//
-  order: [String],
-  invoiceDate: Date, // array of menu item ids
+  order: [Object], // array of menu item ids
+  invoiceDate: Date,
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);
 
-const createNewBooking = (customer_id, table_id, bookingDate) => {
+const createNewBooking = (session_id, tableIDs, bookingDate) => {
   return new Promise((resolve, reject) => {
-    table
-      .getTableNumber(table_id)
-      .then((tableNumber) => {
-        table
-          .bookTable(tableNumber)
-          .then(() => {
-            const newBooking = new Booking({
-              customerID: customer_id,
-              tableID: table_id,
-              bookingDate: bookingDate,
-            });
+    console.log("s", session_id);
+    session
+      .getUserBySession(session_id)
+      .then((customer) => {
+        console.log("date", bookingDate);
+        if (customer.customer_id !== null) {
+          const newBooking = new Booking({
+            customerID: customer.customer_id,
+            tableIDs,
+            bookingDate,
+          });
 
-            console.log("newBooking", newBooking);
+          console.log("newBooking", newBooking);
 
-            newBooking.save(function (err) {
-              if (err) reject(err);
+          newBooking.save(function (err) {
+            if (err) reject(err);
 
-              resolve();
-            });
-          })
-          .catch((err) => console.log(err));
+            resolve();
+          });
+        }
       })
       .catch((err) => console.log(err));
   });
@@ -85,19 +83,21 @@ const updateBookingTime = (booking_id, bookingDate) => {
   });
 };
 
-const updateOrder = (order_id, menuItems) => {
+const updateOrder = (session_id, order) => {
   return new Promise((resolve, reject) => {
-    Order.findOneAndUpdate(
-      { order_id },
-      { order: menuItems, invoiceDate: new Date() },
-      function (err) {
-        if (err) {
-          console.log(err);
-          reject(err);
-        }
-        resolve();
-      }
-    );
+    session
+      .getUserBySession(session_id)
+      .then((customer) => {
+        Booking.findOneAndUpdate(
+          { customerID: customer.customer_id },
+          { order, invoiceDate: new Date() },
+          function (err) {
+            if (err) reject(err);
+            resolve();
+          }
+        );
+      })
+      .catch((err) => console.log(err));
   });
 };
 
@@ -184,7 +184,7 @@ const timeDifference = (booking_id) => {
   return new Promise((resolve, reject) => {
     Booking.findById(booking_id, function (err, booking) {
       if (err) reject(err);
-      console.log((booking.bookingDate - new Date()) / 3600000)
+      console.log((booking.bookingDate - new Date()) / 3600000);
       resolve((booking.bookingDate - new Date()) / 3600000 > 24);
     });
   });
