@@ -16,11 +16,12 @@ module.exports = (app) => {
   // });
 
   app.post("/Booking", (req, res) => {
+    console.log("body", req.body);
     booking
       .createNewBooking(
-        req.body.customer_id,
-        new mongoose.Types.ObjectId(req.body.table_id),
-        decodeURIComponent(req.body.date)
+        req.body.session_id,
+        req.body.selectedTables,
+        req.body.date
       )
       .then(() => {
         res.sendStatus(200);
@@ -60,9 +61,14 @@ module.exports = (app) => {
   });
 
   app.post("/Booking/MenuItems", (req, res) => {
+    console.log("Order");
+    console.log(req.body.session_id);
+    console.log(JSON.parse(req.body.order));
     booking
-      .updateOrder(JSON.parse(req.body.menuItemIDs))
-      .then(() => {})
+      .updateOrder(req.body.session_id, JSON.parse(req.body.order))
+      .then(() => {
+        res.sendStatus(200);
+      })
       .catch((err) => console.log(err));
   });
 
